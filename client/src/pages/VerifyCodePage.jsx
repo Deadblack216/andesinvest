@@ -17,7 +17,7 @@ const VerifyCodePage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/verify-code', {
+      const response = await fetch('http://localhost:4000/verify-code', { // Cambiar a 4000
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

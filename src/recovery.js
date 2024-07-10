@@ -4,28 +4,29 @@ import cors from 'cors';
 import postmark from 'postmark';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
-const app = express();
-const port = process.env.PORT;
+const recoveryApp = express();
 
-app.use(bodyParser.json());
-app.use(cors());
+recoveryApp.use(bodyParser.json());
+recoveryApp.use(cors());
 
-const client = new postmark.ServerClient(process.env.POSTMARK_API_KEY); // Tu API Key de Postmark
+const client = new postmark.ServerClient(process.env.POSTMARK_API_KEY);
 
 const mongoClient = new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let verificationCodes = {};
 
-app.post('/forgot-password', async (req, res) => {
+// Ruta para "olvidé mi contraseña"
+recoveryApp.post('/forgot-password', async (req, res) => {
   const { email } = req.body;
 
   try {
     await mongoClient.connect();
-    const database = mongoClient.db('test'); // Cambia 'test' por el nombre de tu base de datos
-    const collection = database.collection('users'); // Cambia 'users' por el nombre de tu colección
+    const database = mongoClient.db('test');
+    const collection = database.collection('users');
     const user = await collection.findOne({ email });
 
     if (user) {
@@ -35,7 +36,7 @@ app.post('/forgot-password', async (req, res) => {
       verificationCodes[email] = { code, expiration };
 
       await client.sendEmail({
-        From: 'andres.zambrano03@epn.edu.ec', // Reemplaza con tu correo
+        From: 'andres.zambrano03@epn.edu.ec',
         To: email,
         Subject: 'Código de verificación',
         TextBody: `Tu código de verificación es: ${code}`,
@@ -53,7 +54,8 @@ app.post('/forgot-password', async (req, res) => {
   }
 });
 
-app.post('/verify-code', async (req, res) => {
+// Ruta para verificar el código y cambiar la contraseña
+recoveryApp.post('/verify-code', async (req, res) => {
   const { email, code, newPassword } = req.body;
 
   const verificationData = verificationCodes[email];
@@ -63,12 +65,15 @@ app.post('/verify-code', async (req, res) => {
   }
 
   try {
+    // Hashing the new password
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+
     await mongoClient.connect();
     const database = mongoClient.db('test');
     const collection = database.collection('users');
     const result = await collection.updateOne(
       { email },
-      { $set: { password: newPassword, updatedAt: new Date() } }
+      { $set: { password: passwordHash, updatedAt: new Date() } }
     );
 
     if (result.matchedCount === 1) {
@@ -86,6 +91,4 @@ app.post('/verify-code', async (req, res) => {
   delete verificationCodes[email];
 });
 
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
-});
+export default recoveryApp;
