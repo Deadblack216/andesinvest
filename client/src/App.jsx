@@ -13,6 +13,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import VerifyCodePage from './pages/VerifyCodePage'; // Nueva importación
 import { TaskProvider } from "./context/tasksContext";
 import CanalesDigitales from "./pages/CanalesDigitales"; // Importa el nuevo componente
+import Transferencias from "./pages/Transferencias";
 
 function App() {
   return (
@@ -34,7 +35,9 @@ function App() {
                 <Route path="/profile" element={<h1>Profile</h1>} />
               </Route>
               <Route path="/canales-digitales" element={<CanalesDigitales />} /> {/* Nueva ruta */}
+              <Route path="/transferencias" element={<Transferencias />} /> {/* Nueva ruta */}
             </Routes>
+            
           </main>
         </BrowserRouter>
       </TaskProvider>

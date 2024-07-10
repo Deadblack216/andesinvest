@@ -112,7 +112,7 @@ export function Navbar() {
               )}
             </li>
             <li>
-              <ButtonLink to="/add-task" className="hover:bg-purple-700 bg-purple-600 px-3 py-1 rounded">Add Task</ButtonLink>
+              <ButtonLink to="/add-task" className="hover:bg-purple-700 bg-purple-600 px-3 py-1 rounded">Crear cuenta</ButtonLink>
             </li>
             <li>
               <Link to="/" onClick={() => logout()} className="hover:bg-red-700 bg-red-600 px-3 py-1 rounded">

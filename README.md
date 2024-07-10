@@ -7,6 +7,12 @@ npm install
 npm run dev
 ```
 
+Recordar inicializar server.mjs para que funcione recuperación de clave y verificación con MongoDB
+```sh
+cd andesinvest
+node server.mjs
+```
+
 ```sh
 cd client
 npm install
