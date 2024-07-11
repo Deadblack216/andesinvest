@@ -87,6 +87,9 @@ export function Navbar() {
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/configuracion-cuenta">Configuración de la cuenta</Link>
                   </li>
+                  <li className="px-4 py-2 hover:bg-gray-200">
+                    <Link to="/cambiarcontra">Cambiar Contraseña</Link>
+                  </li>
                 </ul>
               )}
             </li>

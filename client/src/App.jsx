@@ -16,6 +16,7 @@ import { AccountProvider } from "./context/accountContext"; // Importa el nuevo 
 import CanalesDigitales from "./pages/CanalesDigitales";
 import Transferencias from "./pages/Transferencias";
 import CrearCuenta from "./pages/CrearCuenta";
+import CambiarContraseña from "./pages/CambiarContraseña";
 
 function App() {
   return (
@@ -36,10 +37,12 @@ function App() {
                   <Route path="/add-task" element={<TaskFormPage />} />
                   <Route path="/tasks/:id" element={<TaskFormPage />} />
                   <Route path="/profile" element={<h1>Profile</h1>} />
+                  <Route path="/cambiarcontra" element={<CambiarContraseña />} />
                 </Route>
                 <Route path="/canales-digitales" element={<CanalesDigitales />} />
                 <Route path="/transferencias" element={<Transferencias />} />
                 <Route path="/crearcuenta" element={<CrearCuenta />} />
+                
               </Routes>
             </main>
           </BrowserRouter>
