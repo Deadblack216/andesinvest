@@ -10,7 +10,7 @@ const ForgotPasswordPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/forgot-password', {
+      const response = await fetch('http://localhost:4000/forgot-password', { // Cambiar a 4000
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

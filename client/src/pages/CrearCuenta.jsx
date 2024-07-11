@@ -1,63 +1,24 @@
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import { Button, Card, Input, Label } from "../components/ui";
-import { useTasks } from "../context/tasksContext";
-import { Textarea } from "../components/ui/Textarea";
+// /src/pages/CrearCuenta.jsx
+import React from "react";
 import { useForm } from "react-hook-form";
-dayjs.extend(utc);
+import { Button, Card, Input, Label } from "../components/ui";
+import { Textarea } from "../components/ui/Textarea";
+import { useAccount } from "../context/accountContext";
+import { useNavigate } from "react-router-dom";
 
-export function TaskFormPage() {
-  const { createTask, getTask, updateTask } = useTasks();
+function CrearCuenta() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { createAccount } = useAccount();
   const navigate = useNavigate();
-  const params = useParams();
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      if (params.id) {
-        updateTask(params.id, {
-          ...data,
-          date: dayjs.utc(data.date).format(),
-        });
-      } else {
-        createTask({
-          ...data,
-          date: dayjs.utc(data.date).format(),
-        });
-      }
-
+      await createAccount(data);
       navigate("/tasks");
     } catch (error) {
-      console.log(error);
-      window.location.href = "/";
+      console.error(error);
     }
   };
-
-  useEffect(() => {
-    const loadTask = async () => {
-      if (params.id) {
-        const task = await getTask(params.id);
-        setValue("title", task.title);
-        setValue("lastName", task.lastName);
-        setValue("cedula", task.cedula);
-        setValue("description", task.description);
-        setValue(
-          "date",
-          task.date ? dayjs(task.date).utc().format("YYYY-MM-DD") : ""
-        );
-        setValue("completed", task.completed);
-        setValue("accountType", task.accountType);
-      }
-    };
-    loadTask();
-  }, []);
 
   return (
     <Card>
@@ -148,8 +109,8 @@ export function TaskFormPage() {
 
         <Button>Guardar</Button>
       </form>
-      
     </Card>
-    
   );
 }
+
+export default CrearCuenta;

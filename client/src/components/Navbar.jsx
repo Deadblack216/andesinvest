@@ -26,7 +26,7 @@ export function Navbar() {
               onMouseEnter={() => setIsAccountMenuOpen(true)}
               onMouseLeave={() => setIsAccountMenuOpen(false)}
             >
-              <span className="hover:bg-blue-700 px-3 py-1 rounded">Cuenta</span>
+              <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios</span>
               {isAccountMenuOpen && (
                 <ul
                   className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg"
@@ -41,6 +41,9 @@ export function Navbar() {
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/paypal">Paypal</Link>
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-200">
+                    <Link to="/crearcuenta">Crear cuenta</Link>
                   </li>
                 </ul>
               )}
@@ -84,6 +87,9 @@ export function Navbar() {
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/configuracion-cuenta">Configuración de la cuenta</Link>
                   </li>
+                  <li className="px-4 py-2 hover:bg-gray-200">
+                    <Link to="/cambiarcontra">Cambiar Contraseña</Link>
+                  </li>
                 </ul>
               )}
             </li>
@@ -112,7 +118,7 @@ export function Navbar() {
               )}
             </li>
             <li>
-              <ButtonLink to="/add-task" className="hover:bg-purple-700 bg-purple-600 px-3 py-1 rounded">Crear cuenta</ButtonLink>
+              <ButtonLink to="/add-task" className="hover:bg-purple-700 bg-purple-600 px-3 py-1 rounded">BOTON TAREAS</ButtonLink>
             </li>
             <li>
               <Link to="/" onClick={() => logout()} className="hover:bg-red-700 bg-red-600 px-3 py-1 rounded">
