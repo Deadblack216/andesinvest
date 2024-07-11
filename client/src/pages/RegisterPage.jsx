@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { registerSchema } from "../schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-function Register() {
+function RegisterPage() {
   const { signup, errors: registerErrors, isAuthenticated } = useAuth();
   const {
     register,
@@ -18,7 +18,21 @@ function Register() {
   const navigate = useNavigate();
 
   const onSubmit = async (value) => {
-    await signup(value);
+    const userData = {
+      username: value.username,
+      email: value.email,
+      password: value.password,
+      confirmPassword: value.confirmPassword,
+      fullName: value.fullName,
+      dateOfBirth: value.dateOfBirth,
+      phoneNumber: value.phoneNumber,
+      address: value.address, // Usamos directamente el campo 'address' como string
+      accountNumber: Math.floor(1000000000 + Math.random() * 9000000000).toString(),
+      accountType: "savings",
+      cedula: value.cedula, // Incluir el número de cédula desde el formulario
+    };
+
+    await signup(userData);
   };
 
   useEffect(() => {
@@ -93,8 +107,82 @@ function Register() {
                   <p className="text-red-500 text-sm mt-1">{errors.confirmPassword?.message}</p>
                 )}
               </div>
-              
-              <Button className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition-colors">
+
+              <div>
+                <Label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Nombre Completo:</Label>
+                <Input
+                  type="text"
+                  name="fullName"
+                  placeholder="Nombre Completo"
+                  {...register("fullName")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+                {errors.fullName?.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.fullName?.message}</p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700">Fecha de Nacimiento:</Label>
+                <Input
+                  type="date"
+                  name="dateOfBirth"
+                  {...register("dateOfBirth")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+                {errors.dateOfBirth?.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth?.message}</p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Número de Teléfono:</Label>
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  placeholder="+593991234567"
+                  {...register("phoneNumber")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+                {errors.phoneNumber?.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.phoneNumber?.message}</p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="address" className="block text-sm font-medium text-gray-700">Dirección:</Label>
+                <Input
+                  type="text"
+                  name="address"
+                  placeholder="Dirección completa"
+                  {...register("address")}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+                {errors.address?.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.address?.message}</p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="cedula" className="block text-sm font-medium text-gray-700">Número de Cédula:</Label>
+                <Input
+                  type="text"
+                  name="cedula"
+                  placeholder="Número de cédula"
+                  {...register("cedula", {
+                    maxLength: { value: 10, message: "Máximo 10 caracteres" },
+                    pattern: { value: /^[0-9]*$/, message: "Solo números permitidos" },
+                  })}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+                {errors.cedula?.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.cedula?.message}</p>
+                )}
+              </div>
+
+              {/* No es necesario el campo de Número de Cuenta ni Tipo de Cuenta en el formulario, ya que se generan automáticamente en el backend */}
+
+              <Button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition-colors">
                 Continuar
               </Button>
             </form>
@@ -104,7 +192,8 @@ function Register() {
           </Card>
         </div>
 
-        {/* Right Section */}
+        {/* Right Section (Opcional, para validación de identidad) */}
+        {/* 
         <div className="hidden md:flex flex-1 items-center justify-center bg-blue-200 p-10">
           <div className="text-center">
             <img src="public/id_card.svg" alt="Validation" className="w-24 h-24 mx-auto mb-4" />
@@ -113,9 +202,10 @@ function Register() {
             <p className="mt-4 text-sm text-blue-900">El código de huella dactilar puedes encontrarlo en la parte posterior de la cédula</p>
           </div>
         </div>
+        */}
       </div>
     </div>
   );
 }
 
-export default Register;
+export default RegisterPage;

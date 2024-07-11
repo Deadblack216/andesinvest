@@ -6,14 +6,15 @@ import { createAccessToken } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, fullName, dateOfBirth, phoneNumber, address, cedula } = req.body;
 
     const userFound = await User.findOne({ email });
 
-    if (userFound)
+    if (userFound) {
       return res.status(400).json({
         message: ["The email is already in use"],
       });
+    }
 
     // hashing the password
     const passwordHash = await bcrypt.hash(password, 10);
@@ -23,6 +24,11 @@ export const register = async (req, res) => {
       username,
       email,
       password: passwordHash,
+      fullName,
+      dateOfBirth,
+      phoneNumber,
+      address,
+      cedula: Number(cedula), // Asegurarse de que cédula sea un número
     });
 
     // saving the user in the database
@@ -40,11 +46,26 @@ export const register = async (req, res) => {
     });
 
     res.json({
-      id: userSaved._id,
+      _id: userSaved._id,
       username: userSaved.username,
       email: userSaved.email,
+      createdAt: userSaved.createdAt,
+      updatedAt: userSaved.updatedAt,
+      fullName: userSaved.fullName,
+      dateOfBirth: userSaved.dateOfBirth,
+      phoneNumber: userSaved.phoneNumber,
+      accountNumber: userSaved.accountNumber,
+      accountType: userSaved.accountType,
+      balance: userSaved.balance,
+      transactionHistory: userSaved.transactionHistory,
+      lastLogin: userSaved.lastLogin,
+      loginAttempts: userSaved.loginAttempts,
+      address: userSaved.address,
+      status: userSaved.status,
+      cedula: userSaved.cedula, // Devolver la cédula en la respuesta
     });
   } catch (error) {
+    console.error(error); // Imprime el error en la consola para debug
     res.status(500).json({ message: error.message });
   }
 };
@@ -54,17 +75,26 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     const userFound = await User.findOne({ email });
 
-    if (!userFound)
+    if (!userFound) {
       return res.status(400).json({
         message: ["The email does not exist"],
       });
+    }
 
     const isMatch = await bcrypt.compare(password, userFound.password);
+
     if (!isMatch) {
+      userFound.loginAttempts = (userFound.loginAttempts || 0) + 1;
+      await userFound.save();
       return res.status(400).json({
         message: ["The password is incorrect"],
       });
     }
+
+    userFound.loginAttempts = 0;
+    await userFound.save();
+    userFound.lastLogin = Date.now();
+    await userFound.save();
 
     const token = await createAccessToken({
       id: userFound._id,
@@ -83,6 +113,7 @@ export const login = async (req, res) => {
       email: userFound.email,
     });
   } catch (error) {
+    console.error(error); // Imprime el error en la consola para debug
     return res.status(500).json({ message: error.message });
   }
 };
