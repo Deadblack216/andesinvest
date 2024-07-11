@@ -40,7 +40,6 @@ function App() {
                 <Route path="/canales-digitales" element={<CanalesDigitales />} />
                 <Route path="/transferencias" element={<Transferencias />} />
                 <Route path="/crearcuenta" element={<CrearCuenta />} />
-                <Route path="/cambiarcontraseña" element={<CambiarContraseña />} />
               </Routes>
             </main>
           </BrowserRouter>
