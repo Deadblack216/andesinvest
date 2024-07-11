@@ -17,6 +17,7 @@ import CanalesDigitales from "./pages/CanalesDigitales";
 import Transferencias from "./pages/Transferencias";
 import CrearCuenta from "./pages/CrearCuenta";
 import CambiarContraseña from "./pages/CambiarContraseña";
+import Saldos from "./pages/Saldos";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/canales-digitales" element={<CanalesDigitales />} />
                 <Route path="/transferencias" element={<Transferencias />} />
                 <Route path="/crearcuenta" element={<CrearCuenta />} />
+                <Route path="/saldo" element={<Saldos  />} />
                 
               </Routes>
             </main>
