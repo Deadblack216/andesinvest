@@ -1,22 +1,66 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useAuth } from '../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 const CambiarContraseña = () => {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
 
     const newPassword = watch("newPassword", "");
 
-    const onSubmit = data => {
-        console.log(data);
-        // Aquí realizarías la petición para cambiar la contraseña
+    const obtenerUserId = () => {
+        return user?.id || "";
+    };
+
+    const onSubmit = async (data) => {
+        try {
+            const userId = obtenerUserId();
+            const response = await axios.post('http://localhost:4000/change-password', {
+                userId,
+                currentPassword: data.currentPassword,
+                newPassword: data.newPassword
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                }
+            });
+            setSuccessMessage('Contraseña actualizada con éxito. Cerrando sesión...');
+            setErrorMessage('');
+            
+            // Esperar un poco antes de cerrar la sesión para que el usuario pueda ver el mensaje de éxito
+            setTimeout(() => {
+                logout(); // Cerrar sesión
+                navigate('/'); // Redirigir al usuario a la página principal
+            }, 2000);
+        } catch (error) {
+            console.error(error);
+            setErrorMessage('Contraseña actual incorrecta. Reintentar.');
+            setSuccessMessage('');
+        }
     };
 
     return (
         <div className="max-w-md mx-auto mt-10">
             <h1 className="text-2xl font-bold mb-5">Cambiar contraseña</h1>
+            {successMessage && (
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span className="block sm:inline">{successMessage}</span>
+                </div>
+            )}
+            {errorMessage && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span className="block sm:inline">{errorMessage}</span>
+                </div>
+            )}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                     <label htmlFor="currentPassword" className="block text-gray-700 font-bold mb-2">Ingresa la contraseña actual</label>
