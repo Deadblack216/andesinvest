@@ -40,8 +40,8 @@ function RegisterPage() {
   }, [isAuthenticated]);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex w-full max-w-4xl shadow-lg rounded-lg overflow-hidden">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="flex flex-col md:flex-row w-full max-w-6xl shadow-lg rounded-lg overflow-hidden">
         {/* Left Section */}
         <div className="flex-1 bg-white p-10">
           <Card className="w-full p-8 bg-gray-100 rounded-lg shadow-lg">
@@ -71,7 +71,7 @@ function RegisterPage() {
                 <Input
                   type="email"
                   name="email"
-                  placeholder="tucorreo@gmail.com"
+                  placeholder="tucorreo@epn.edu.ec"
                   {...register("email")}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
@@ -180,8 +180,6 @@ function RegisterPage() {
                 )}
               </div>
 
-              {/* No es necesario el campo de Número de Cuenta ni Tipo de Cuenta en el formulario, ya que se generan automáticamente en el backend */}
-
               <Button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition-colors">
                 Continuar
               </Button>
@@ -193,7 +191,6 @@ function RegisterPage() {
         </div>
 
         {/* Right Section (Opcional, para validación de identidad) */}
-        {/* 
         <div className="hidden md:flex flex-1 items-center justify-center bg-blue-200 p-10">
           <div className="text-center">
             <img src="public/id_card.svg" alt="Validation" className="w-24 h-24 mx-auto mb-4" />
@@ -202,7 +199,6 @@ function RegisterPage() {
             <p className="mt-4 text-sm text-blue-900">El código de huella dactilar puedes encontrarlo en la parte posterior de la cédula</p>
           </div>
         </div>
-        */}
       </div>
     </div>
   );
