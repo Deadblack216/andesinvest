@@ -9,3 +9,7 @@ export const getAccountsRequest = async () =>
 
 export const deleteAccountRequest = async (id) =>
   axios.delete(`/accounts/${id}`);
+
+export const fetchAccountsRequest = () => axios.get("/accounts");
+
+export const checkAccountExistsRequest = (accountNumber) => axios.get(`/accounts/check/${accountNumber}`);

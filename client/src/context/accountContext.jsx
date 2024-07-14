@@ -1,5 +1,6 @@
+// /src/context/accountContext.jsx
 import { createContext, useContext, useState } from "react";
-import { createAccountRequest, getAccountsRequest, deleteAccountRequest } from "../api/accounts";
+import { createAccountRequest, fetchAccountsRequest, checkAccountExistsRequest } from "../api/accounts";
 
 const AccountContext = createContext();
 
@@ -9,40 +10,31 @@ export const useAccount = () => {
   return context;
 };
 
-export const AccountProvider = ({ children }) => {
+export function AccountProvider({ children }) {
   const [accounts, setAccounts] = useState([]);
 
   const fetchAccounts = async () => {
     try {
-      const res = await getAccountsRequest();
+      const res = await fetchAccountsRequest();
       setAccounts(res.data);
     } catch (error) {
-      console.error("Error fetching accounts:", error);
+      console.error(error);
     }
   };
 
-  const createAccount = async (accountData) => {
+  const checkAccountExists = async (accountNumber) => {
     try {
-      const res = await createAccountRequest(accountData);
-      setAccounts([...accounts, res.data]);
-      console.log("Account created:", res.data);
+      const res = await checkAccountExistsRequest(accountNumber);
+      return res.data.exists;
     } catch (error) {
-      console.error("Error creating account:", error);
-    }
-  };
-
-  const deleteAccount = async (id) => {
-    try {
-      await deleteAccountRequest(id);
-      setAccounts(accounts.filter(account => account._id !== id));
-    } catch (error) {
-      console.error("Error deleting account:", error);
+      console.error(error);
+      return false;
     }
   };
 
   return (
-    <AccountContext.Provider value={{ accounts, fetchAccounts, createAccount, deleteAccount }}>
+    <AccountContext.Provider value={{ accounts, fetchAccounts, checkAccountExists }}>
       {children}
     </AccountContext.Provider>
   );
-};
+}
