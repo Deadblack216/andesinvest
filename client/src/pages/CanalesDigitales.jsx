@@ -2,7 +2,7 @@ import React from 'react';
 
 const CanalesDigitales = () => {
     return (
-        <div>
+        <div>   
             <header className="page-header">
                 <h1>Redes Digitales</h1>
             </header>
