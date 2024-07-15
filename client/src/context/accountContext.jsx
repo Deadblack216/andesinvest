@@ -13,6 +13,16 @@ export const useAccount = () => {
 export function AccountProvider({ children }) {
   const [accounts, setAccounts] = useState([]);
 
+  const createAccount = async (accountData) => {
+    try {
+      const res = await createAccountRequest(accountData);
+      setAccounts([...accounts, res.data]);
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const fetchAccounts = async () => {
     try {
       const res = await fetchAccountsRequest();
@@ -33,7 +43,7 @@ export function AccountProvider({ children }) {
   };
 
   return (
-    <AccountContext.Provider value={{ accounts, fetchAccounts, checkAccountExists }}>
+    <AccountContext.Provider value={{ accounts, createAccount, fetchAccounts, checkAccountExists }}>
       {children}
     </AccountContext.Provider>
   );

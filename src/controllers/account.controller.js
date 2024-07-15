@@ -8,20 +8,21 @@ const generateAccountNumber = () => {
 export const createAccount = async (req, res) => {
   try {
     const { accountType } = req.body;
-    const userId = req.user.id; // Utilizar req.user.id
-    const user = await User.findById(userId);
+    const userId = req.user.id; // Asegúrate de que el usuario esté autenticado y el middleware de autenticación esté configurado correctamente
 
     const newAccount = new Account({
-      userId,
-      accountType,
-      balance: 100,
+      userId: userId,
+      accountType: accountType,
+      balance: 100, // Saldo inicial de $100
       accountNumber: generateAccountNumber(),
     });
 
-    await newAccount.save();
-    res.status(201).json(newAccount);
+    const savedAccount = await newAccount.save();
+
+    res.status(201).json(savedAccount);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
