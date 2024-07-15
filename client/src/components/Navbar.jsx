@@ -11,7 +11,7 @@ export function Navbar() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-blue-800 my-3 flex justify-between py-5 px-10 rounded-lg relative">
+    <nav className="bg-blue-800 my-3 flex justify-between py-5 px-10 rounded-lg relative z-50">
       <div className="flex items-center space-x-4">
         <img src="public/image.png" alt="Logo" className="h-12 w-13 rounded-lg shadow-lg" />
         <h1 className="text-2xl font-bold text-white">
@@ -29,7 +29,7 @@ export function Navbar() {
               <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios</span>
               {isAccountMenuOpen && (
                 <ul
-                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg"
+                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
                   onMouseEnter={() => setIsAccountMenuOpen(true)}
                   onMouseLeave={() => setIsAccountMenuOpen(false)}
                 >
@@ -56,7 +56,7 @@ export function Navbar() {
               <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios</span>
               {isServicesMenuOpen && (
                 <ul
-                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg"
+                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
                   onMouseEnter={() => setIsServicesMenuOpen(true)}
                   onMouseLeave={() => setIsServicesMenuOpen(false)}
                 >
@@ -77,7 +77,7 @@ export function Navbar() {
               <span className="hover:bg-blue-700 px-3 py-1 rounded">Perfil</span>
               {isProfileMenuOpen && (
                 <ul
-                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg"
+                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
                   onMouseEnter={() => setIsProfileMenuOpen(true)}
                   onMouseLeave={() => setIsProfileMenuOpen(false)}
                 >
@@ -101,7 +101,7 @@ export function Navbar() {
               <span className="hover:bg-blue-700 px-3 py-1 rounded">Centro de Ayuda</span>
               {isHelpMenuOpen && (
                 <ul
-                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg"
+                  className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
                   onMouseEnter={() => setIsHelpMenuOpen(true)}
                   onMouseLeave={() => setIsHelpMenuOpen(false)}
                 >
@@ -140,4 +140,5 @@ export function Navbar() {
     </nav>
   );
 }
+
 
