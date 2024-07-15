@@ -20,6 +20,9 @@ https://www.mongodb.com/try/download/community
     
     hacerlos mediante el .msi y todo por defecto mediante mongodcompass iniciar el servidor no es necesario crear una base de datos
 
+carrusel:
+npm install react-responsive-carousel
+
 
 <<<<<<< HEAD
 **Prueba N1**    
