@@ -117,9 +117,7 @@ export function Navbar() {
                 </ul>
               )}
             </li>
-            <li>
-              <ButtonLink to="/add-task" className="hover:bg-purple-700 bg-purple-600 px-3 py-1 rounded">BOTON TAREAS</ButtonLink>
-            </li>
+            {/* Aqui va el boton de tareas eliminado */}
             <li>
               <Link to="/" onClick={() => logout()} className="hover:bg-red-700 bg-red-600 px-3 py-1 rounded">
                 Cerrar Sesión
