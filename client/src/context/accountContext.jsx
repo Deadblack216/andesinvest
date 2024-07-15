@@ -1,6 +1,6 @@
 // /src/context/accountContext.jsx
 import { createContext, useContext, useState } from "react";
-import { createAccountRequest } from "../api/accounts";
+import { createAccountRequest, fetchAccountsRequest, checkAccountExistsRequest } from "../api/accounts";
 
 const AccountContext = createContext();
 
@@ -13,18 +13,27 @@ export const useAccount = () => {
 export function AccountProvider({ children }) {
   const [accounts, setAccounts] = useState([]);
 
-  const createAccount = async (accountData) => {
+  const fetchAccounts = async () => {
     try {
-      const res = await createAccountRequest(accountData);
-      setAccounts([...accounts, res.data]);
-      console.log(res.data);
+      const res = await fetchAccountsRequest();
+      setAccounts(res.data);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const checkAccountExists = async (accountNumber) => {
+    try {
+      const res = await checkAccountExistsRequest(accountNumber);
+      return res.data.exists;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
   return (
-    <AccountContext.Provider value={{ accounts, createAccount }}>
+    <AccountContext.Provider value={{ accounts, fetchAccounts, checkAccountExists }}>
       {children}
     </AccountContext.Provider>
   );
