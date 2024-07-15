@@ -1,6 +1,14 @@
 // /src/controllers/transfer.controller.js
 import Account from '../models/Account.js';
 import Transfer from '../models/transfer.model.js';
+import crypto from 'crypto';
+
+const decrypt = (text) => {
+  const decipher = crypto.createDecipher('aes-256-cbc', process.env.ENCRYPTION_KEY);
+  let decrypted = decipher.update(text, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+};
 
 export const transferFunds = async (req, res) => {
   const { fromAccountId, toAccountNumber, amount, beneficiaryName, description, notificationEmail } = req.body;
@@ -48,7 +56,12 @@ export const transferFunds = async (req, res) => {
 export const getTransfers = async (req, res) => {
   try {
     const transfers = await Transfer.find().populate('fromAccount toAccount');
-    res.status(200).json(transfers);
+    const decryptedTransfers = transfers.map((transfer) => ({
+      ...transfer._doc,
+      beneficiaryName: decrypt(transfer.beneficiaryName),
+      description: decrypt(transfer.description),
+    }));
+    res.status(200).json(decryptedTransfers);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
