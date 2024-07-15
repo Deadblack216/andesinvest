@@ -4,12 +4,18 @@ export const addressSchema = z.string().min(5, {
   message: "La dirección debe tener al menos 5 caracteres",
 });
 
-export const loginSchema = z.object({
+const loginSchema = z.object({
   email: z.string().email({
     message: "Por favor, introduce una dirección de correo electrónico válida",
   }),
   password: z.string().min(6, {
     message: "La contraseña debe tener al menos 6 caracteres",
+  }).refine((value) => {
+    // Aquí puedes agregar la lógica para verificar si la contraseña es incorrecta
+    const isValidPassword = checkPassword(value); // Esta es una función ficticia
+    return isValidPassword;
+  }, {
+    message: "La contraseña es incorrecta",
   }),
 });
 
