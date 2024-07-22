@@ -1,4 +1,3 @@
-// /src/pages/Transferencias.jsx
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Label, Input, Button } from "../components/ui";
@@ -6,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAccount } from '../context/accountContext';
 import { useTransfer } from '../context/transferContext';
 import { useAuth } from '../context/authContext';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 const Transferencias = () => {
   const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue } = useForm();
@@ -15,6 +17,7 @@ const Transferencias = () => {
   const navigate = useNavigate();
   const [selectedAccount, setSelectedAccount] = useState('');
   const [isOwnAccount, setIsOwnAccount] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     fetchAccounts();
@@ -83,10 +86,15 @@ const Transferencias = () => {
 
     try {
       await createTransfer(transferData);
-      navigate('/saldo');
+      setShowSuccessModal(true); // Mostrar el modal de éxito
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    navigate('/saldo');
   };
 
   return (
@@ -225,9 +233,6 @@ const Transferencias = () => {
               ></textarea>
             </div>
             <div className="form-actions flex justify-between mt-4 md:mt-6">
-              <Button type="reset" className="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition-colors">
-                Limpiar
-              </Button>
               <Button type="submit" className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-500 transition-colors">
                 Continuar
               </Button>
@@ -239,6 +244,36 @@ const Transferencias = () => {
       <footer className="text-center py-4 bg-gray-800 w-full mt-auto">
         <p className="text-gray-400">&copy; 2024 AndesInvest</p>
       </footer>
+
+      <Modal
+        open={showSuccessModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+          position: 'absolute', 
+          top: '50%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)', 
+          width: 400, 
+          bgcolor: 'background.paper', 
+          boxShadow: 24, 
+          p: 4,
+          outline: 0,
+          color: 'black', // Añadir color negro para el texto
+        }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ color: 'black' }}>
+            Transferencia exitosa
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2, color: 'black' }}>
+            La transferencia se ha realizado con éxito.
+          </Typography>
+          <Button onClick={handleCloseModal} variant="contained" color="primary">
+            Cerrar
+          </Button>
+        </Box>
+      </Modal>
 
       <style jsx>{`
         body {
