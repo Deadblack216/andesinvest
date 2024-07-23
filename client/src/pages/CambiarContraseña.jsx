@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useAuth } from '../context/authContext';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const CambiarContraseña = () => {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
@@ -49,8 +51,8 @@ const CambiarContraseña = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10">
-            <h1 className="text-2xl font-bold mb-5">Cambiar contraseña</h1>
+        <div className="max-w-md mx-auto mt-10 bg-gray-900 p-10 rounded-lg shadow-lg">
+            <h1 className="text-3xl font-bold mb-6 text-white">Cambiar contraseña</h1>
             {successMessage && (
                 <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <span className="block sm:inline">{successMessage}</span>
@@ -62,32 +64,32 @@ const CambiarContraseña = () => {
                 </div>
             )}
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-4">
-                    <label htmlFor="currentPassword" className="block text-gray-700 font-bold mb-2">Ingresa la contraseña actual</label>
+                <div className="mb-6">
+                    <label htmlFor="currentPassword" className="block text-gray-300 font-bold mb-2 text-lg">Ingresa la contraseña actual</label>
                     <div className="relative">
                         <input
                             type={showPassword ? "text" : "password"}
                             id="currentPassword"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-900 leading-tight focus:outline-none focus:shadow-outline text-lg"
                             {...register("currentPassword", { required: "Por favor, ingrese su contraseña actual." })}
                         />
                         <button
                             type="button"
-                            className="absolute inset-y-0 right-0 px-3 py-1 text-sm text-gray-700"
+                            className="absolute inset-y-0 right-0 px-3 py-1 text-lg text-gray-300"
                             onClick={() => setShowPassword(!showPassword)}
                         >
-                            {showPassword ? "Ocultar" : "Mostrar"}
+                            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} size="lg" />
                         </button>
                     </div>
-                    {errors.currentPassword && <p className="text-red-500 text-xs italic">{errors.currentPassword.message}</p>}
+                    {errors.currentPassword && <p className="text-red-500 text-sm italic mt-2">{errors.currentPassword.message}</p>}
                 </div>
-                <div className="mb-4">
-                    <label htmlFor="newPassword" className="block text-gray-700 font-bold mb-2">Ingresa la contraseña nueva</label>
+                <div className="mb-6">
+                    <label htmlFor="newPassword" className="block text-gray-300 font-bold mb-2 text-lg">Ingresa la contraseña nueva</label>
                     <div className="relative">
                         <input
                             type={showNewPassword ? "text" : "password"}
                             id="newPassword"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-900 leading-tight focus:outline-none focus:shadow-outline text-lg"
                             {...register("newPassword", {
                                 required: "Por favor, ingrese una nueva contraseña.",
                                 minLength: {
@@ -98,21 +100,21 @@ const CambiarContraseña = () => {
                         />
                         <button
                             type="button"
-                            className="absolute inset-y-0 right-0 px-3 py-1 text-sm text-gray-700"
+                            className="absolute inset-y-0 right-0 px-3 py-1 text-lg text-gray-300"
                             onClick={() => setShowNewPassword(!showNewPassword)}
                         >
-                            {showNewPassword ? "Ocultar" : "Mostrar"}
+                            <FontAwesomeIcon icon={showNewPassword ? faEye : faEyeSlash} size="lg" />
                         </button>
                     </div>
-                    {errors.newPassword && <p className="text-red-500 text-xs italic">{errors.newPassword.message}</p>}
+                    {errors.newPassword && <p className="text-red-500 text-sm italic mt-2">{errors.newPassword.message}</p>}
                 </div>
-                <div className="mb-4">
-                    <label htmlFor="confirmNewPassword" className="block text-gray-700 font-bold mb-2">Confirme la nueva contraseña</label>
+                <div className="mb-6">
+                    <label htmlFor="confirmNewPassword" className="block text-gray-300 font-bold mb-2 text-lg">Confirme la nueva contraseña</label>
                     <div className="relative">
                         <input
                             type={showConfirmNewPassword ? "text" : "password"}
                             id="confirmNewPassword"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-900 leading-tight focus:outline-none focus:shadow-outline text-lg"
                             {...register("confirmNewPassword", {
                                 required: "Por favor, confirme su nueva contraseña.",
                                 validate: value => value === newPassword || "Las contraseñas no coinciden."
@@ -120,17 +122,17 @@ const CambiarContraseña = () => {
                         />
                         <button
                             type="button"
-                            className="absolute inset-y-0 right-0 px-3 py-1 text-sm text-gray-700"
+                            className="absolute inset-y-0 right-0 px-3 py-1 text-lg text-gray-300"
                             onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
                         >
-                            {showConfirmNewPassword ? "Ocultar" : "Mostrar"}
+                            <FontAwesomeIcon icon={showConfirmNewPassword ? faEye : faEyeSlash} size="lg" />
                         </button>
                     </div>
-                    {errors.confirmNewPassword && <p className="text-red-500 text-xs italic">{errors.confirmNewPassword.message}</p>}
+                    {errors.confirmNewPassword && <p className="text-red-500 text-sm italic mt-2">{errors.confirmNewPassword.message}</p>}
                 </div>
                 <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline w-full text-lg"
                 >
                     Guardar cambios
                 </button>

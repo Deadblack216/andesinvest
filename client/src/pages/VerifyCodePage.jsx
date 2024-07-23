@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const VerifyCodePage = () => {
   const [verificationCode, setVerificationCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,27 +16,26 @@ const VerifyCodePage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:4000/verify-code', { // Cambiar a 4000
+      const response = await fetch('http://localhost:4000/verify-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, code: verificationCode, newPassword }),
+        body: JSON.stringify({ email, code: verificationCode }),
       });
 
       if (response.ok) {
-        alert('Contraseña cambiada con éxito');
-        navigate('/login'); // Redirige a la página de inicio de sesión
+        navigate('/reset-password', { state: { email } }); // Redirige a la página de cambio de contraseña
       } else if (response.status === 400) {
         setError('Código de verificación incorrecto o expirado');
       } else if (response.status === 404) {
         setError('Usuario no encontrado');
       } else {
-        setError('Error al cambiar la contraseña');
+        setError('Error al verificar el código');
       }
     } catch (error) {
       console.error('Error:', error);
-      setError('Error al cambiar la contraseña');
+      setError('Error al verificar el código');
     }
   };
 
@@ -67,25 +65,6 @@ const VerifyCodePage = () => {
               }}
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">Nueva contraseña:</label>
-            <input 
-              type="password" 
-              id="newPassword" 
-              value={newPassword} 
-              onChange={(e) => setNewPassword(e.target.value)} 
-              required 
-              style={{
-                color: 'black',
-                padding: '0.5rem',
-                border: '1px solid #ccc',
-                borderRadius: '0.375rem',
-                width: '100%',
-                boxSizing: 'border-box',
-                marginBottom: '1rem'
-              }}
-            />
-          </div>
           <button type="submit" style={{
             backgroundColor: '#3b82f6',
             color: 'white',
@@ -95,7 +74,7 @@ const VerifyCodePage = () => {
             border: 'none',
             cursor: 'pointer'
           }}>
-            Verificar y cambiar contraseña
+            Verificar código
           </button>
         </form>
       </div>
@@ -104,3 +83,4 @@ const VerifyCodePage = () => {
 };
 
 export default VerifyCodePage;
+
