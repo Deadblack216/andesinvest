@@ -1,5 +1,12 @@
 An web-app banking built with React, Node.js, Express, and MongoDB for managing user accounts, financial transactions, and banking data.
 
+**IMPORTANTE**
+Agregar archivo .env con las claves de API, secrets, etc.
+```sh
+cp .env.template .env
+(Modificar con valores propios)
+```
+
 Inicializar backend:
 ```sh
 git clone https://github.com/Deadblack216/andesinvest.git
