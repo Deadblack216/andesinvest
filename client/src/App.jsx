@@ -13,6 +13,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import VerifyCodePage from './pages/VerifyCodePage';
 import { TaskProvider } from "./context/tasksContext";
 import { AccountProvider } from "./context/accountContext"; // Importa el nuevo proveedor de contexto
+import { TransferProvider } from "./context/transferContext";
 import CanalesDigitales from "./pages/CanalesDigitales";
 import Transferencias from "./pages/Transferencias";
 import CrearCuenta from "./pages/CrearCuenta";
@@ -24,6 +25,7 @@ function App() {
     <AuthProvider>
       <TaskProvider>
         <AccountProvider>
+          <TransferProvider>
           <BrowserRouter>
             <main className="container content-container mx-auto px-10 md:px-0">
               <Navbar />
@@ -48,6 +50,7 @@ function App() {
               </Routes>
             </main>
           </BrowserRouter>
+          </TransferProvider>
         </AccountProvider>
       </TaskProvider>
     </AuthProvider>

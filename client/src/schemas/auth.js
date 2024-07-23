@@ -1,48 +1,48 @@
 import { z } from "zod";
 
 export const addressSchema = z.string().min(5, {
-  message: "Address must be at least 5 characters",
+  message: "La dirección debe tener al menos 5 caracteres",
 });
 
 export const loginSchema = z.object({
   email: z.string().email({
-    message: "Please enter a valid email address",
+    message: "Por favor, introduce una dirección de correo electrónico válida",
   }),
   password: z.string().min(6, {
-    message: "Password must be at least 6 characters",
+    message: "La contraseña debe tener al menos 6 caracteres",
   }),
 });
 
 export const registerSchema = z
   .object({
     username: z.string().min(3, {
-      message: "Username must be at least 3 characters",
+      message: "El nombre de usuario debe tener al menos 3 caracteres",
     }),
     email: z.string().email({
-      message: "Please enter a valid email address",
+      message: "Por favor, introduce una dirección de correo electrónico válida",
     }).refine((email) => email.endsWith("@epn.edu.ec"), {
-      message: "Email must end with @epn.edu.ec",
+      message: "El correo electrónico debe terminar con @epn.edu.ec",
     }),
     password: z.string().min(8, {
-      message: "Password must be at least 8 characters",
+      message: "La contraseña debe tener al menos 8 caracteres",
     })
       .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter",
+        message: "La contraseña debe contener al menos una letra mayúscula",
       })
       .regex(/[0-9]/, {
-        message: "Password must contain at least one number",
+        message: "La contraseña debe contener al menos un número",
       })
       .regex(/[^A-Za-z0-9]/, {
-        message: "Password must contain at least one special character",
+        message: "La contraseña debe contener al menos un carácter especial",
       }),
     confirmPassword: z.string().min(8, {
-      message: "Password must be at least 8 characters",
+      message: "La contraseña debe tener al menos 8 caracteres",
     }).refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords do not match",
+      message: "Las contraseñas no coinciden",
       path: ["confirmPassword"],
     }),
     fullName: z.string().min(2, {
-      message: "Full name is required",
+      message: "El nombre completo es obligatorio",
     }),
     dateOfBirth: z.string().refine((value) => {
       const today = new Date();
@@ -54,15 +54,15 @@ export const registerSchema = z
       }
       return age >= 18;
     }, {
-      message: "You must be at least 18 years old",
+      message: "Debes tener al menos 18 años",
     }),
     phoneNumber: z.string().min(10, {
-      message: "Phone number is required",
+      message: "El número de teléfono es obligatorio",
     }),
     address: addressSchema,
     cedula: z.string().max(10, {
-      message: "Cédula must have a maximum of 10 characters",
+      message: "La cédula debe tener un máximo de 10 caracteres",
     }).regex(/^[0-9]*$/, {
-      message: "Only numbers are allowed for Cédula",
+      message: "Solo se permiten números para la cédula",
     }),
   });

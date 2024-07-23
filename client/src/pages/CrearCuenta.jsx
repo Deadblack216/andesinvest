@@ -14,7 +14,7 @@ function CrearCuenta() {
   const onSubmit = async (data) => {
     try {
       await createAccount(data);
-      navigate("/tasks");
+      navigate("/saldo");
     } catch (error) {
       console.error(error);
     }
@@ -54,8 +54,8 @@ function CrearCuenta() {
           {...register("cedula", {
             required: "Por favor, ingrese una cédula válida.",
             maxLength: {
-              value: 9,
-              message: "La cédula no puede tener más de 9 números.",
+              value: 10,
+              message: "La cédula no puede tener más de 10 números.",
             },
           })}
         />
@@ -88,7 +88,7 @@ function CrearCuenta() {
             <input
               type="radio"
               name="accountType"
-              value="ahorro"
+              value="savings"
               {...register("accountType", { required: "Por favor, seleccione un tipo de cuenta." })}
             />
             Ahorro
@@ -97,7 +97,7 @@ function CrearCuenta() {
             <input
               type="radio"
               name="accountType"
-              value="corriente"
+              value="checking"
               {...register("accountType", { required: "Por favor, seleccione un tipo de cuenta." })}
             />
             Corriente
