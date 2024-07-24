@@ -12,6 +12,7 @@ import { TasksPage } from "./pages/TasksPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import VerifyCodePage from './pages/VerifyCodePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import RegisterSuccessPage from './pages/RegisterSuccessPage';
 import { TaskProvider } from "./context/tasksContext";
 import { AccountProvider } from "./context/accountContext"; // Importa el nuevo proveedor de contexto
 import { TransferProvider } from "./context/transferContext";
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/verify-code" element={<VerifyCodePage />} />
+                <Route path="/register-success" element={<RegisterSuccessPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route element={<ProtectedRoute />}>
                   <Route path="/tasks" element={<TasksPage />} />

@@ -1,13 +1,14 @@
-import { useEffect } from "react";
-import { useAuth } from "../context/authContext";
-import { Link, useNavigate } from "react-router-dom";
-import { Card, Message, Button, Input, Label } from "../components/ui";
-import { useForm } from "react-hook-form";
-import { registerSchema } from "../schemas/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from 'react';
+import { useAuth } from '../context/authContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { Card, Message, Button, Input, Label } from '../components/ui';
+import { useForm } from 'react-hook-form';
+import { registerSchema } from '../schemas/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 
 function RegisterPage() {
-  const { signup, errors: registerErrors, isAuthenticated } = useAuth();
+  const { errors: registerErrors, isAuthenticated } = useAuth();
   const {
     register,
     handleSubmit,
@@ -26,17 +27,22 @@ function RegisterPage() {
       fullName: value.fullName,
       dateOfBirth: value.dateOfBirth,
       phoneNumber: value.phoneNumber,
-      address: value.address, // Usamos directamente el campo 'address' como string
+      address: value.address,
       accountNumber: Math.floor(1000000000 + Math.random() * 9000000000).toString(),
-      accountType: "savings",
-      cedula: value.cedula, // Incluir el número de cédula desde el formulario
+      accountType: 'savings',
+      cedula: value.cedula,
     };
 
-    await signup(userData);
+    try {
+      await axios.post('http://localhost:4000/send-verification-code', { email: userData.email });
+      navigate('/verify-code', { state: { email: userData.email, userData, isRegister: true } });
+    } catch (error) {
+      console.error('Error sending verification code:', error);
+    }
   };
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/tasks");
+    if (isAuthenticated) navigate('/tasks');
   }, [isAuthenticated]);
 
   return (
@@ -188,16 +194,6 @@ function RegisterPage() {
               ¿Ya tienes una cuenta? <Link className="text-blue-500 hover:text-blue-400" to="/login">Iniciar Sesión</Link>
             </p>
           </Card>
-        </div>
-
-        {/* Right Section (Opcional, para validación de identidad) */}
-        <div className="hidden md:flex flex-1 items-center justify-center bg-blue-200 p-10">
-          <div className="text-center">
-            <img src="public/id_card.svg" alt="Validation" className="w-24 h-24 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-blue-900 mb-2">Valida tu identidad</h2>
-            <p className="text-blue-900">Para continuar, necesitamos que ingreses tu número de identificación y el código dactilar para validar tu identidad.</p>
-            <p className="mt-4 text-sm text-blue-900">El código de huella dactilar puedes encontrarlo en la parte posterior de la cédula</p>
-          </div>
         </div>
       </div>
     </div>
