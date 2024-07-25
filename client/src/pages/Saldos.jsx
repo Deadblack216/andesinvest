@@ -1,5 +1,6 @@
 // /src/pages/Saldos.jsx
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import { useAccount } from '../context/accountContext';
 import { Button } from "../components/ui";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -7,6 +8,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 const Saldos = () => {
   const { accounts, fetchAccounts, deleteAccount } = useAccount();
+  const navigate = useNavigate(); // Inicializar useNavigate
 
   useEffect(() => {
     fetchAccounts();
@@ -26,9 +28,9 @@ const Saldos = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-custom-darkgray p-6">
+    <div className="min-h-screen flex flex-col items-center p-6">
       <header className="page-header mb-6">
-        <h1 className="text-3xl font-bold text-white">Detalles de la Cuentas</h1>
+        <h1 className="text-3xl font-bold text-black">Detalles de la Cuentas</h1>
       </header>
       <Carousel>
         {accounts.map((account) => (
@@ -50,10 +52,11 @@ const Saldos = () => {
               <p className="text-gray-900">{account.accountType === 'savings' ? 'Cuenta de Ahorros' : 'Cuenta Corriente'}</p>
             </div>
             <Button onClick={() => handleDelete(account._id)}>Eliminar Cuenta</Button>
+            <Button onClick={() => navigate(`/account/${account._id}`)}>Detalles</Button> {/* Navegar a la página de detalles */}
           </div>
         ))}
       </Carousel>
-      <footer className="mt-6 text-white">
+      <footer className="flex justify-center items-center h-16 text-black">
         <p>&copy; 2024 AndesInvest</p>
       </footer>
 
@@ -67,10 +70,12 @@ const Saldos = () => {
         .text-lightblue-700 {
           color: #3182CE;
         }
+        body {
+          background-color: #f0f4f8; /* Fondo gris claro */
+        }
       `}</style>
     </div>
   );
 };
 
 export default Saldos;
-

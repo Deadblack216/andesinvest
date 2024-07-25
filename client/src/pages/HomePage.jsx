@@ -123,6 +123,11 @@ function HomePage() {
         </p>
       </div>
     </footer>
+    <style jsx>{`
+  body {
+    background-color: #f0f4f8; /* Fondo gris claro */
+  }
+`}</style>
     </div>
   );
 }

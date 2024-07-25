@@ -34,9 +34,9 @@ const CanalesDigitales = () => {
                     </div>
                 </section>
             </main>
-            <footer>
-                <p>&copy; 2024 AndesInvest</p>
-            </footer>
+            <footer className="flex justify-center items-center h-16 bg-white text-black">
+        <p>&copy; 2024 AndesInvest</p>
+      </footer>
 
             {/* Estilos en línea para propósitos demostrativos */}
             <style jsx>{`
