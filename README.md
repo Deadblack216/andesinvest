@@ -30,4 +30,6 @@ https://www.mongodb.com/try/download/community
 carrusel:
 npm install react-responsive-carousel
 npm install crypto
+npm install react-datepicker jspdf
+
 

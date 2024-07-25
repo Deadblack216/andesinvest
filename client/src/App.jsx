@@ -21,6 +21,8 @@ import Transferencias from "./pages/Transferencias";
 import CrearCuenta from "./pages/CrearCuenta";
 import CambiarContraseña from "./pages/CambiarContraseña";
 import Saldos from "./pages/Saldos";
+import Transacciones from "./pages/Transacciones";
+import DatosPersonales from "./pages/DatosPersonales";
 
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
                 <Route path="/transferencias" element={<Transferencias />} />
                 <Route path="/crearcuenta" element={<CrearCuenta />} />
                 <Route path="/saldo" element={<Saldos  />} />
+                <Route path="/Transacciones" element={<Transacciones  />} />
+                <Route path="/DatosPersonales" element={<DatosPersonales  />} />
                 
               </Routes>
             </main>
