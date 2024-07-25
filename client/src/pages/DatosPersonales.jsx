@@ -1,17 +1,22 @@
 import React from 'react';
 
 const datospersonales = () => {
-  // Datos quemados
+  // Datos de la base de datos
   const userData = {
-    initials: 'HS',
-    fullName: 'HERNAN DARIO SANCHEZ TENELANDA',
-    lastLogin: '26-07-2024 a las 19:04',
-    birthDate: '28/05/1982',
-    dataProcessingStatus: 'Autorizado',
+    initials: 'NA',
+    username: 'User',
+    fullName: 'Nombre Apellido',
+    lastLogin: '25-07-2024 a las 03:28',
+    birthDate: '26/08/2002',
     additionalProfileData: 'Ninguno',
-    phoneNumber: '0987654321',
-    email: 'hernan@example.com',
-    address: 'IBARRA, GUAYAQUIL, V-519 EDIFICAZAR'
+    phoneNumber: '0987456186',
+    email: '@epn.edu.ec',
+    address: 'Quito'
+  };
+
+  const handleUpdate = () => {
+    // Lógica para actualizar la información
+    alert('Actualizar información');
   };
 
   return (
@@ -32,12 +37,8 @@ const datospersonales = () => {
           <span>{userData.birthDate}</span>
         </div>
         <div className="detail-item">
-          <strong>Tratamiento de datos personales:</strong>
-          <span>{userData.dataProcessingStatus}</span>
-        </div>
-        <div className="detail-item">
-          <strong>Datos adicionales de perfil:</strong>
-          <span>{userData.additionalProfileData}</span>
+          <strong>Nombre de Usuario:</strong>
+          <span>{userData.username}</span>
         </div>
       </div>
       <div className="contact-details">
@@ -58,11 +59,15 @@ const datospersonales = () => {
           <span>{userData.address}</span>
         </div>
       </div>
+      <button className="update-button" onClick={handleUpdate}>Actualizar Información</button>
       <footer className="footer">
-        <p>&copy; 2024 MiAplicación</p>
+        <p>&copy; 2024 AndesInvest</p>
       </footer>
 
       <style jsx>{`
+       body {
+          background-color: #fff; /* Fondo blanco */
+        }
         .user-profile {
           font-family: Arial, sans-serif;
           max-width: 600px;
@@ -129,12 +134,29 @@ const datospersonales = () => {
           color: #555;
         }
 
+        .update-button {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          margin-top: 20px;
+          border: none;
+          border-radius: 5px;
+          background-color: #007bff;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+        }
+
+        .update-button:hover {
+          background-color: #0056b3;
+        }
+
         .footer {
           margin-top: 1.5rem;
           text-align: center;
           color: #888;
         }
-        background-color: white;
       `}</style>
     </div>
   );
