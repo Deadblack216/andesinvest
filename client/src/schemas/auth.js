@@ -20,8 +20,6 @@ export const registerSchema = z
     }),
     email: z.string().email({
       message: "Por favor, introduce una dirección de correo electrónico válida",
-    }).refine((email) => email.endsWith("@epn.edu.ec"), {
-      message: "El correo electrónico debe terminar con @epn.edu.ec",
     }),
     password: z.string().min(8, {
       message: "La contraseña debe tener al menos 8 caracteres",

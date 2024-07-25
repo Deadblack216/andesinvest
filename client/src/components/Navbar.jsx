@@ -45,6 +45,9 @@ export function Navbar() {
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/crearcuenta">Crear cuenta</Link>
                   </li>
+                  <li className="px-4 py-2 hover:bg-gray-200">
+                    <Link to="/transacciones">Transacciones</Link>
+                  </li>
                 </ul>
               )}
             </li>
@@ -82,7 +85,7 @@ export function Navbar() {
                   onMouseLeave={() => setIsProfileMenuOpen(false)}
                 >
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <Link to="/datos-personales">Datos personales</Link>
+                    <Link to="/DatosPersonales">Datos personales</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/configuracion-cuenta">Configuración de la cuenta</Link>
