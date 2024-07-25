@@ -241,8 +241,8 @@ const Transferencias = () => {
         </div>
       </main>
 
-      <footer className="flex justify-center items-center h-16 text-black">
-        <p>&copy; 2024 AndesInvest</p>
+      <footer className="text-center py-4 bg-gray-800 w-full mt-auto">
+        <p className="text-gray-400">&copy; 2024 AndesInvest</p>
       </footer>
 
       <Modal
@@ -279,9 +279,9 @@ const Transferencias = () => {
         body {
           font-family: Arial, sans-serif;
         }
-        body {
-    background-color: white;
-  }
+        .bg-custom-darkgray {
+          background-color: #202020;
+        }
         .form-actions button {
           padding: 10px 20px;
           border: none;

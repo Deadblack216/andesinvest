@@ -69,11 +69,6 @@ const ForgotPasswordPage = () => {
           </button>
         </form>
       </div>
-      <style jsx>{`
-  body {
-    background-color: #f0f4f8; /* Fondo gris claro */
-  }
-`}</style>
     </div>
   );
 };

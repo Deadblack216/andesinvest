@@ -61,11 +61,6 @@ export function TaskFormPage() {
 
   return (
     <Card>
-      <style jsx>{`
-        body {
-          background-color: #f0f4f8; /* Fondo gris claro */
-        }
-      `}</style>
       <form className="formcuenta" onSubmit={handleSubmit(onSubmit)}>
         <Label htmlFor="title">Nombres</Label>
         <Input
@@ -152,8 +147,9 @@ export function TaskFormPage() {
         )}
 
         <Button>Guardar</Button>
-        
       </form>
+      
     </Card>
+    
   );
 }

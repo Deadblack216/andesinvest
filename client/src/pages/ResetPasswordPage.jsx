@@ -101,7 +101,6 @@ const ResetPasswordPage = () => {
           </button>
         </form>
       </div>
-     
     </div>
   );
 };
