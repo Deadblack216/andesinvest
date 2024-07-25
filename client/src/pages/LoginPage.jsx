@@ -17,13 +17,7 @@ export function LoginPage() {
   const { signin, errors: loginErrors, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      await signin(data);
-    } catch (error) {
-      console.error('Error during login:', error); // Asegúrate de manejar este error adecuadamente
-    }
-  };
+  const onSubmit = (data) => signin(data);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -118,12 +112,6 @@ export function LoginPage() {
           </div>
         </div>
       </div>
-      <style jsx>{`
-  body {
-    background-color: #f0f4f8; /* Fondo gris claro */
-  }
-`}</style>
     </div>
-    
   );
 }

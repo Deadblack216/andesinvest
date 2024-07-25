@@ -21,7 +21,6 @@ import Transferencias from "./pages/Transferencias";
 import CrearCuenta from "./pages/CrearCuenta";
 import CambiarContraseña from "./pages/CambiarContraseña";
 import Saldos from "./pages/Saldos";
-import AccountDetails from "./pages/AccountDetails"; // Corrige el nombre de la importación
 
 function App() {
   return (
@@ -29,32 +28,32 @@ function App() {
       <TaskProvider>
         <AccountProvider>
           <TransferProvider>
-            <BrowserRouter>
-              <main className="container content-container mx-auto px-10 md:px-0">
-                <Navbar />
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                  <Route path="/verify-code" element={<VerifyCodePage />} />
-                  <Route path="/register-success" element={<RegisterSuccessPage />} />
-                  <Route path="/reset-password" element={<ResetPasswordPage />} />
-                  <Route element={<ProtectedRoute />}>
-                    <Route path="/tasks" element={<TasksPage />} />
-                    <Route path="/add-task" element={<TaskFormPage />} />
-                    <Route path="/tasks/:id" element={<TaskFormPage />} />
-                    <Route path="/profile" element={<h1>Profile</h1>} />
-                    <Route path="/cambiarcontra" element={<CambiarContraseña />} />
-                  </Route>
-                  <Route path="/canales-digitales" element={<CanalesDigitales />} />
-                  <Route path="/transferencias" element={<Transferencias />} />
-                  <Route path="/crearcuenta" element={<CrearCuenta />} />
-                  <Route path="/saldo" element={<Saldos  />} />
-                  <Route path="/account/:id" element={<AccountDetails />} /> {/* Asegúrate de usar el parámetro :id */}
-                </Routes>
-              </main>
-            </BrowserRouter>
+          <BrowserRouter>
+            <main className="container content-container mx-auto px-10 md:px-0">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/verify-code" element={<VerifyCodePage />} />
+                <Route path="/register-success" element={<RegisterSuccessPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/tasks" element={<TasksPage />} />
+                  <Route path="/add-task" element={<TaskFormPage />} />
+                  <Route path="/tasks/:id" element={<TaskFormPage />} />
+                  <Route path="/profile" element={<h1>Profile</h1>} />
+                  <Route path="/cambiarcontra" element={<CambiarContraseña />} />
+                </Route>
+                <Route path="/canales-digitales" element={<CanalesDigitales />} />
+                <Route path="/transferencias" element={<Transferencias />} />
+                <Route path="/crearcuenta" element={<CrearCuenta />} />
+                <Route path="/saldo" element={<Saldos  />} />
+                
+              </Routes>
+            </main>
+          </BrowserRouter>
           </TransferProvider>
         </AccountProvider>
       </TaskProvider>
