@@ -26,7 +26,7 @@ export function Navbar() {
               onMouseEnter={() => setIsAccountMenuOpen(true)}
               onMouseLeave={() => setIsAccountMenuOpen(false)}
             >
-              <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios</span>
+              <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios bancarios</span>
               {isAccountMenuOpen && (
                 <ul
                   className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
@@ -45,6 +45,9 @@ export function Navbar() {
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/crearcuenta">Crear cuenta</Link>
                   </li>
+                  <li className="px-4 py-2 hover:bg-gray-200">
+                    <Link to="/transacciones">Transacciones</Link>
+                  </li>
                 </ul>
               )}
             </li>
@@ -53,7 +56,7 @@ export function Navbar() {
               onMouseEnter={() => setIsServicesMenuOpen(true)}
               onMouseLeave={() => setIsServicesMenuOpen(false)}
             >
-              <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios</span>
+              <span className="hover:bg-blue-700 px-3 py-1 rounded">Pagos y recargas</span>
               {isServicesMenuOpen && (
                 <ul
                   className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
@@ -82,7 +85,7 @@ export function Navbar() {
                   onMouseLeave={() => setIsProfileMenuOpen(false)}
                 >
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <Link to="/datos-personales">Datos personales</Link>
+                    <Link to="/DatosPersonales">Datos personales</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/configuracion-cuenta">Configuración de la cuenta</Link>

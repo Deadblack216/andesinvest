@@ -12,7 +12,7 @@ export const register = async (req, res) => {
 
     if (userFound) {
       return res.status(400).json({
-        message: ["The email is already in use"],
+        message: ["El correo electrónico ya está en uso"],
       });
     }
 
@@ -77,7 +77,7 @@ export const login = async (req, res) => {
 
     if (!userFound) {
       return res.status(400).json({
-        message: ["The email does not exist"],
+        message: ["El correo electrónico no existe"],
       });
     }
 
@@ -87,7 +87,7 @@ export const login = async (req, res) => {
       userFound.loginAttempts = (userFound.loginAttempts || 0) + 1;
       await userFound.save();
       return res.status(400).json({
-        message: ["The password is incorrect"],
+        message: ["La contraseña es incorrecta"],
       });
     }
 

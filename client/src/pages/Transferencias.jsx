@@ -278,9 +278,7 @@ const Transferencias = () => {
       <style jsx>{`
         body {
           font-family: Arial, sans-serif;
-        }
-        .bg-custom-darkgray {
-          background-color: #202020;
+          background-color: #FFF;
         }
         .form-actions button {
           padding: 10px 20px;
