@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 function HomePage() {
   return (
     <div className="bg-gray-100">
-      <section className="bg-blue-900 text-white flex flex-col md:flex-row justify-between items-center min-h-screen p-10">
+      <section className="bg-white text-white flex flex-col md:flex-row justify-between items-center min-h-screen p-10">
         <div className="md:w-1/2 flex flex-col justify-center items-start space-y-6">
-          <span className="uppercase tracking-wider text-sm">Primero Tú</span>
-          <h1 className="text-5xl font-bold">
+          <span className="uppercase tracking-wider text-sm text-gray-600">Primero Tú</span>
+          <h1 className="text-5xl font-bold text-gray-600">
             Abre tu cuenta en minutos, sin ir al banco y sin trámites complicados
           </h1>
           <div className="space-y-4">
@@ -17,7 +17,7 @@ function HomePage() {
               Comienza una Cuenta →
             </Link>
             <Link
-              className="border border-white text-white px-6 py-3 rounded-md inline-block hover:bg-white hover:text-blue-900 transition-colors"
+              className="border border-black text-black px-6 py-3 rounded-md inline-block hover:bg-black hover:text-blue-900 transition-colors"
               to="/login"
             >
               Ingresa a Banca web →
@@ -123,6 +123,12 @@ function HomePage() {
         </p>
       </div>
     </footer>
+    <style jsx>{`
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #FFF; /* Fondo gris claro */
+                }
+            `}</style>
     </div>
   );
 }
