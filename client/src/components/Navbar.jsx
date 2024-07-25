@@ -112,7 +112,7 @@ export function Navbar() {
                     <Link to="/chat-en-vivo">Chat en Vivo</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <Link to="/envianos-un-correo">Envíanos un correo</Link>
+                    <Link to="/enviar-correo">Envíanos un correo</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/canales-digitales">Canales Digitales</Link>

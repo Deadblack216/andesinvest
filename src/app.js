@@ -9,6 +9,7 @@ import accountRoutes from "./routes/account.routes.js";
 import transferRoutes from "./routes/transfer.routes.js";
 import { FRONTEND_URL } from "./config.js";
 
+
 const app = express();
 
 app.use(

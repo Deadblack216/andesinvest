@@ -5,6 +5,7 @@ import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 import SibApiV3Sdk from 'sib-api-v3-sdk';
+import User from './models/user.model.js';
 
 dotenv.config();
 
@@ -170,5 +171,63 @@ recoveryApp.post('/send-verification-code', async (req, res) => {
     await mongoClient.close();
   }
 });
+// Nueva ruta para enviar el correo de asistencia técnica
+recoveryApp.post('/send-support-email', async (req, res) => {
+  const { email, subject, message } = req.body;
+
+  try {
+    // Conectar a la base de datos y obtener el usuario
+    await mongoClient.connect();
+    const database = mongoClient.db('test');
+    const collection = database.collection('users');
+    const user = await collection.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const { _id, username, phoneNumber, cedula } = user;
+
+    // Configuración del correo para dilan.andrade@epn.edu.ec
+    const supportEmail = new SibApiV3Sdk.SendSmtpEmail();
+    supportEmail.sender = { name: 'Soporte Tecnico AndesInvest', email: 'noreply.andesinvest@gmail.com' };
+    supportEmail.to = [{ email: 'dilan.andrade@epn.edu.ec' }];
+    supportEmail.subject = 'Asistencia Técnica - '+ subject || 'Asistencia Técnica';
+    supportEmail.htmlContent = `
+      <p>Solicitud de asistencia técnica de:</p>
+      <p>ID de usuario: ${_id}</p>
+      <p>Nombre de usuario: ${username}</p>
+      <p>Correo electrónico: ${email}</p>
+      <p>Número de teléfono: ${phoneNumber}</p>
+      <p>Cédula: ${cedula}</p>
+      <p>Mensaje:</p>
+      <p>${message}</p>
+    `;
+
+    // Configuración del correo para el usuario
+    const userEmail = new SibApiV3Sdk.SendSmtpEmail();
+    userEmail.sender = { name: 'Soporte Tecnico AndesInvest', email: 'noreply.andesinvest@gmail.com' };
+    userEmail.to = [{ email }];
+    userEmail.subject = 'Solicitud de asistencia técnica en revisión';
+    userEmail.htmlContent = `
+      <p>Estimado/a ${username},</p>
+      <p>Hemos recibido su solicitud de asistencia técnica. Nuestro equipo se comunicará con usted lo antes posible.</p>
+      <p>Atentamente,</p>
+      <p>Soporte AndesInvest</p>
+    `;
+
+    // Enviar ambos correos
+    await apiInstance.sendTransacEmail(supportEmail);
+    await apiInstance.sendTransacEmail(userEmail);
+
+    res.json({ message: 'Correos enviados correctamente' });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(500).json({ message: 'Error al procesar la solicitud', error: error.message });
+  } finally {
+    await mongoClient.close();
+  }
+});
+
 
 export default recoveryApp;
