@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-
+//texto dentro de los forms 
 export const Input = forwardRef((props, ref) => (
   <input
     {...props}

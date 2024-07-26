@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-
+//Color del texto de direccion 
 export const Textarea = forwardRef((props, ref, rows = 2) => (
   <textarea
     {...props}
