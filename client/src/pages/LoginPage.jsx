@@ -52,7 +52,7 @@ export function LoginPage() {
           {loginErrors.map((error, i) => (
             <Message message={error} key={i} />
           ))}
-          <h1 className="text-3xl font-bold text-indigo-900 mb-6">Bienvenido a tu Banca Web</h1>
+          <h1 className="text-3xl font-bold text-indigo-900 mb-6">Inicia Sesión</h1>
 
           <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
             <div>
