@@ -42,7 +42,7 @@ const CanalesDigitales = () => {
             <style jsx>{`
                 body {
                     font-family: Arial, sans-serif;
-                    background-color: #f0f4f8; /* Fondo gris claro */
+                    background-color: #FFF; /* Fondo gris claro */
                 }
                 .page-header {
                     text-align: center;
@@ -111,6 +111,8 @@ const CanalesDigitales = () => {
                 .social-media-link:hover {
                     background-color: rgba(255, 255, 255, 0.4);
                 }
+                    
+
             `}</style>
         </div>
     );
