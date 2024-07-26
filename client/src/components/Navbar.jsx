@@ -26,7 +26,7 @@ export function Navbar() {
               onMouseEnter={() => setIsAccountMenuOpen(true)}
               onMouseLeave={() => setIsAccountMenuOpen(false)}
             >
-              <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios</span>
+              <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios bancarios</span>
               {isAccountMenuOpen && (
                 <ul
                   className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
@@ -56,7 +56,7 @@ export function Navbar() {
               onMouseEnter={() => setIsServicesMenuOpen(true)}
               onMouseLeave={() => setIsServicesMenuOpen(false)}
             >
-              <span className="hover:bg-blue-700 px-3 py-1 rounded">Servicios</span>
+              <span className="hover:bg-blue-700 px-3 py-1 rounded">Pagos y recargas</span>
               {isServicesMenuOpen && (
                 <ul
                   className="absolute left-0 bg-white text-black mt-1 py-2 w-48 shadow-lg rounded-lg z-50"
@@ -112,7 +112,7 @@ export function Navbar() {
                     <Link to="/chat-en-vivo">Chat en Vivo</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <Link to="/envianos-un-correo">Envíanos un correo</Link>
+                    <Link to="/enviar-correo">Envíanos un correo</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/canales-digitales">Canales Digitales</Link>
