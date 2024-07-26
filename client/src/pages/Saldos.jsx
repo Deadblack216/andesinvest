@@ -107,10 +107,10 @@ const Saldos = () => {
           border-radius: 50%;
         }
         .arrow-prev {
-          left: 400px;
+          left: 150px;
         }
         .arrow-next {
-          right: 400px;
+          right: 150px;
         }
         .arrow:focus {
           outline: none;

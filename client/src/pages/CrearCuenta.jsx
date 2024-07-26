@@ -109,6 +109,11 @@ function CrearCuenta() {
 
         <Button>Guardar</Button>
       </form>
+      <style jsx>{`
+        body {
+          background-color: #FFF;
+        }
+      `}</style>
     </Card>
   );
 }

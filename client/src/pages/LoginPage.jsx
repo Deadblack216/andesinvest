@@ -26,96 +26,85 @@ export function LoginPage() {
   }, [isAuthenticated]);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
-      <div className="flex-1 flex items-center justify-center">
-        <div className="flex w-full h-full">
-          {/* Left Section */}
-          <div className="flex-1 flex flex-col items-center justify-center bg-white p-10 relative">
-            <img src="public/bovedaAndes.webp" alt="Banner" className="absolute inset-0 w-full h-full object-cover opacity-30" />
-            <div className="w-full max-w-md p-8 bg-gray-800 text-white rounded-lg shadow-lg relative z-10" style={{ backgroundColor: 'rgba(0, 0, 0, 0.85)' }}>
-              {loginErrors.length > 0 && (
-                <div className="mb-4">
-                  {loginErrors.map((error, i) => (
-                    <Message message={error} key={i} className="text-red-500" />
-                  ))}
-                </div>
-              )}
-              <h1 className="text-3xl font-bold text-blue-500 mb-4">Iniciar Sesión</h1>
-
-              <form className="text-xl" onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-4">
-                  <Label htmlFor="email" className="block text-sm font-medium text-gray-200">Correo:</Label>
-                  <Input 
-                    label="Escribe tu correo"
-                    type="email"
-                    name="email"
-                    placeholder="tucorreo@direccion"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    {...register("email", { required: true })}
-                  />
-                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
-                </div>
-
-                <div className="mb-6">
-                  <Label htmlFor="password" className="block text-sm font-medium text-gray-200">Contraseña:</Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    placeholder="Escribe tu contraseña"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    {...register("password", { required: true, minLength: 6 })}
-                  />
-                  {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
-                </div>
-
-                <Button className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition-colors">
-                  Iniciar
-                </Button>
-              </form>
-
-              <p className="flex gap-x-2 justify-between mt-4">
-                No tienes una cuenta? <Link to="/register" className="text-blue-500 hover:text-blue-400">Registrarse</Link>
-              </p>
-              <p className="flex gap-x-2 justify-between mt-4">
-                <Link to="/forgot-password" className="text-blue-500 hover:text-blue-400">Olvidaste tu contraseña?</Link>
-              </p>
+    <div className="h-screen flex bg-gray-100">
+      <div className="flex-1 flex flex-col items-center justify-center bg-white p-10">
+        {/* Left Section (Illustration and Security Tips) */}
+        <div className="w-full max-w-lg">
+          <div className="text-center mb-8">
+            <img src="public/log.png" alt="Security Illustration" className="mx-auto mb-4 w-1/4"/>
+            <h2 className="text-2xl font-bold text-indigo-900">Verifica en tu navegador que estás en Banca Web.</h2>
+            <div className="flex justify-center items-center mt-4">
+              <img src="public/login.webp" alt="Lock Icon" className="mr-2"/>
             </div>
           </div>
-
-          {/* Right Section */}
-          <div className="flex-1 hidden md:flex items-center justify-center bg-blue-200 p-10 text-white">
-            <div className="max-w-md">
-              <h2 className="text-2xl font-bold mb-4 text-blue-900">Consejos de Seguridad</h2>
-              <ul className="space-y-4">
-                <li>
-                  <div className="flex items-center">
-                    <p className="text-blue-900">
-                      AndesInvest no solicita claves, usuarios, números de tarjetas o cuenta por ningún medio.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center">
-                    <p className="text-blue-900">No compartas tus claves, recuerda que son de uso personal e intransferible.</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center">
-                    <p className="text-blue-900">Para acceder a la Banca Virtual, asegúrese de teclear en tu navegador la dirección correcta.</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center">
-                    <p className="text-blue-900">
-                      En caso recibir llamadas, mensajes texto o correos sospechosos contáctate inmediatamente.
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
+          <div className="text-left">
+            <ol className="list-decimal list-inside text-gray-700">
+              <li>Cuida tu usuario y contraseña.</li>
+              <li>Antes de ingresar la Clave Digital verifica que los 4 últimos dígitos de tu cédula sean correctos.</li>
+            </ol>
           </div>
         </div>
       </div>
+
+      <div className="flex-2 flex flex-col items-center justify-center bg-gray-50 p-16">
+        {/* Right Section (Login Form) */}
+        <div className="w-full max-w-lg p-12 bg-white rounded-lg shadow-lg">
+          {loginErrors.map((error, i) => (
+            <Message message={error} key={i} />
+          ))}
+          <h1 className="text-3xl font-bold text-indigo-900 mb-6">Bienvenido a tu Banca Web</h1>
+
+          <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <label htmlFor="email" className="block text-lg font-medium text-black">Correo:</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="tucorreo@epn.edu.ec"
+                {...register("email")}
+                className="mt-1 block w-full border border-gray-300 bg-transparent focus:outline-none focus:ring-0 focus:border-indigo-500 text-lg text-black py-3 px-4"
+              />
+              {errors.email?.message && (
+                <p className="text-red-500 text-sm mt-1">{errors.email?.message}</p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor="password" className="block text-lg font-medium text-black">Contraseña:</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="********"
+                {...register("password")}
+                className="mt-1 block w-full border border-gray-300 bg-transparent focus:outline-none focus:ring-0 focus:border-indigo-500 text-lg text-black py-3 px-4"
+              />
+              {errors.password?.message && (
+                <p className="text-red-500 text-sm mt-1">{errors.password?.message}</p>
+              )}
+            </div>
+
+            <div className="flex justify-between items-center">
+              <Link to="/forgot-password" className="text-sm text-blue-500 hover:text-blue-400">
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+
+            <Button className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 transition-colors">
+              Ingresar
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-gray-600">
+            No tienes una cuenta? <Link to="/register" className="text-blue-500 hover:text-blue-400">Registrate</Link>
+          </p>
+        </div>
+      </div>
+
+      <style jsx>{`
+        body {
+          background-color: #FFF;
+        }
+      `}</style>
     </div>
   );
 }
