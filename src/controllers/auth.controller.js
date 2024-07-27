@@ -16,10 +16,10 @@ export const register = async (req, res) => {
       });
     }
 
-    // hashing the password
+    // Hashing the password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // creating the user
+    // Creating the user
     const newUser = new User({
       username,
       email,
@@ -31,10 +31,10 @@ export const register = async (req, res) => {
       cedula: Number(cedula), // Asegurarse de que cédula sea un número
     });
 
-    // saving the user in the database
+    // Saving the user in the database
     const userSaved = await newUser.save();
 
-    // create access token
+    // Create access token
     const token = await createAccessToken({
       id: userSaved._id,
     });
@@ -45,6 +45,7 @@ export const register = async (req, res) => {
       sameSite: "none",
     });
 
+
     res.json({
       _id: userSaved._id,
       username: userSaved.username,
@@ -54,10 +55,6 @@ export const register = async (req, res) => {
       fullName: userSaved.fullName,
       dateOfBirth: userSaved.dateOfBirth,
       phoneNumber: userSaved.phoneNumber,
-      accountNumber: userSaved.accountNumber,
-      accountType: userSaved.accountType,
-      balance: userSaved.balance,
-      transactionHistory: userSaved.transactionHistory,
       lastLogin: userSaved.lastLogin,
       loginAttempts: userSaved.loginAttempts,
       address: userSaved.address,

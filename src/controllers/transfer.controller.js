@@ -1,4 +1,3 @@
-// /src/controllers/transfer.controller.js
 import Account from '../models/Account.js';
 import Transfer from '../models/transfer.model.js';
 import crypto from 'crypto';
@@ -24,30 +23,59 @@ export const transferFunds = async (req, res) => {
       return res.status(404).json({ message: "Destination account not found" });
     }
 
-    if (fromAccount.balance < amount) {
-      return res.status(400).json({ message: "Insufficient funds" });
+    if (fromAccount.userId.equals(toAccount.userId)) {
+      // Transferencia entre cuentas propias del mismo usuario
+      if (fromAccount.balance < amount) {
+        return res.status(400).json({ message: "Insufficient funds" });
+      }
+
+      // Update account balances
+      fromAccount.balance -= amount;
+      toAccount.balance += amount;
+
+      await fromAccount.save();
+      await toAccount.save();
+
+      // Create a new transfer record
+      const newTransfer = new Transfer({
+        fromAccount: fromAccount._id,
+        toAccount: toAccount._id,
+        amount,
+        beneficiaryName,
+        description,
+        notificationEmail
+      });
+
+      await newTransfer.save();
+
+      return res.status(200).json({ message: "Transfer successful", transfer: newTransfer });
+    } else {
+      // Transferencia entre cuentas de diferentes usuarios
+      if (fromAccount.balance < amount) {
+        return res.status(400).json({ message: "Insufficient funds" });
+      }
+
+      // Update account balances
+      fromAccount.balance -= amount;
+      toAccount.balance += amount;
+
+      await fromAccount.save();
+      await toAccount.save();
+
+      // Create a new transfer record
+      const newTransfer = new Transfer({
+        fromAccount: fromAccount._id,
+        toAccount: toAccount._id,
+        amount,
+        beneficiaryName,
+        description,
+        notificationEmail
+      });
+
+      await newTransfer.save();
+
+      return res.status(200).json({ message: "Transfer successful", transfer: newTransfer });
     }
-
-    // Update account balances
-    fromAccount.balance -= amount;
-    toAccount.balance += amount;
-
-    await fromAccount.save();
-    await toAccount.save();
-
-    // Create a new transfer record
-    const newTransfer = new Transfer({
-      fromAccount: fromAccount._id,
-      toAccount: toAccount._id,
-      amount,
-      beneficiaryName,
-      description,
-      notificationEmail
-    });
-
-    await newTransfer.save();
-
-    res.status(200).json({ message: "Transfer successful", transfer: newTransfer });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
