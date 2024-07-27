@@ -10,14 +10,17 @@ import Typography from "@mui/material/Typography";
 import { Label, Input, Button } from "../components/ui";
 
 const Transferencias = () => {
-  const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue } = useForm();
-  const { accounts, fetchAccounts, checkAccountExists } = useAccount();
+  const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue, watch } = useForm();
+  const { accounts, fetchAccounts, getAccountHolder } = useAccount();
   const { createTransfer } = useTransfer();
-  const { user } = useAuth(); // Obtener información del usuario autenticado
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [selectedAccount, setSelectedAccount] = useState("");
   const [isOwnAccount, setIsOwnAccount] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [accountHolderName, setAccountHolderName] = useState("");
+
+  const toAccountNumber = watch("toAccountNumber");
 
   useEffect(() => {
     fetchAccounts();
@@ -25,11 +28,28 @@ const Transferencias = () => {
 
   useEffect(() => {
     if (isOwnAccount) {
-      setValue("beneficiaryName", user.fullName); // Auto-completar con el nombre del usuario
+      setValue("beneficiaryName", user.fullName);
     } else {
       setValue("beneficiaryName", "");
     }
   }, [isOwnAccount, setValue, user.fullName]);
+
+  useEffect(() => {
+    const fetchAccountHolder = async () => {
+      if (toAccountNumber) {
+        const accountHolder = await getAccountHolder(toAccountNumber);
+        if (accountHolder) {
+          setAccountHolderName(accountHolder);
+          setValue("beneficiaryName", accountHolder);
+        } else {
+          setAccountHolderName("");
+          setValue("beneficiaryName", "");
+        }
+      }
+    };
+
+    fetchAccountHolder();
+  }, [toAccountNumber, getAccountHolder, setValue]);
 
   const onSubmit = async (data) => {
     if (!selectedAccount) {
@@ -56,17 +76,6 @@ const Transferencias = () => {
       return;
     }
 
-    if (!isOwnAccount) {
-      const accountExists = await checkAccountExists(data.toAccountNumber);
-      if (!accountExists) {
-        setError("toAccountNumber", {
-          type: "manual",
-          message: "La cuenta de destino no existe.",
-        });
-        return;
-      }
-    }
-
     clearErrors("amount");
     clearErrors("toAccountNumber");
 
@@ -86,7 +95,7 @@ const Transferencias = () => {
 
     try {
       await createTransfer(transferData);
-      setShowSuccessModal(true); // Mostrar el modal de éxito
+      setShowSuccessModal(true);
     } catch (error) {
       console.error(error);
     }
@@ -147,9 +156,20 @@ const Transferencias = () => {
                 {errors.toAccountNumber && (
                   <p className="text-red-500 text-xs italic col-span-3">{errors.toAccountNumber.message}</p>
                 )}
-                <Button type="button" className="col-span-3 px-4 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                  Verificar
-                </Button>
+              </div>
+            )}
+            {!isOwnAccount && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                <Label htmlFor="beneficiaryName" className="block text-lg font-medium text-black">Beneficiario</Label>
+                <Input
+                  type="text"
+                  id="beneficiaryName"
+                  name="beneficiaryName"
+                  placeholder="Nombre del beneficiario"
+                  readOnly
+                  className="col-span-2 px-4 py-3 border border-black rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-transparent text-black text-lg"
+                  {...register("beneficiaryName")}
+                />
               </div>
             )}
             {isOwnAccount && (
@@ -194,21 +214,6 @@ const Transferencias = () => {
             </div>
             {!isOwnAccount && (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                  <Label htmlFor="beneficiaryName" className="block text-lg font-medium text-black">Beneficiario</Label>
-                  <Input
-                    type="text"
-                    id="beneficiaryName"
-                    name="beneficiaryName"
-                    placeholder="Nombre del beneficiario"
-                    required
-                    className="col-span-2 px-4 py-3 border border-black rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-transparent text-black text-lg w-full"
-                    {...register("beneficiaryName", { required: "Por favor, ingrese el nombre del beneficiario." })}
-                  />
-                  {errors.beneficiaryName && (
-                    <p className="text-red-500 text-xs italic col-span-2">{errors.beneficiaryName.message}</p>
-                  )}
-                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                   <Label htmlFor="notificationEmail" className="block text-lg font-medium text-black">Correo</Label>
                   <Input
