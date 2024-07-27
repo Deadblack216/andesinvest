@@ -52,3 +52,22 @@ export const deleteAccount = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const checkAccountExists = async (req, res) => {
+  const { accountNumber } = req.params;
+  try {
+    const account = await Account.findOne({ accountNumber }).populate('userId', 'fullName');
+    if (account) {
+      return res.status(200).json({
+        exists: true,
+        account: {
+          userId: account.userId.fullName,
+        },
+      });
+    } else {
+      return res.status(404).json({ exists: false });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

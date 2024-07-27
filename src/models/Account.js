@@ -14,7 +14,7 @@ const accountSchema = new mongoose.Schema({
   },
   balance: {
     type: Number,
-    default: 100,
+    default: 0,
   },
   accountNumber: {
     type: String,
