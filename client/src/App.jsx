@@ -1,4 +1,3 @@
-// /src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { AuthProvider } from "./context/authContext";
@@ -14,7 +13,7 @@ import VerifyCodePage from './pages/VerifyCodePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import RegisterSuccessPage from './pages/RegisterSuccessPage';
 import { TaskProvider } from "./context/tasksContext";
-import { AccountProvider } from "./context/accountContext"; // Importa el nuevo proveedor de contexto
+import { AccountProvider } from "./context/accountContext";
 import { TransferProvider } from "./context/transferContext";
 import CanalesDigitales from "./pages/CanalesDigitales";
 import Transferencias from "./pages/Transferencias";
@@ -23,6 +22,7 @@ import CambiarContraseña from "./pages/CambiarContraseña";
 import Saldos from "./pages/Saldos";
 import Transacciones from "./pages/Transacciones";
 import DatosPersonales from "./pages/DatosPersonales";
+import EnviarCorreo from "./pages/EnviarCorreo"; // Importa el nuevo componente
 
 function App() {
   return (
@@ -30,34 +30,34 @@ function App() {
       <TaskProvider>
         <AccountProvider>
           <TransferProvider>
-          <BrowserRouter>
-            <main className="container content-container mx-auto px-10 md:px-0">
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/verify-code" element={<VerifyCodePage />} />
-                <Route path="/register-success" element={<RegisterSuccessPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/tasks" element={<TasksPage />} />
-                  <Route path="/add-task" element={<TaskFormPage />} />
-                  <Route path="/tasks/:id" element={<TaskFormPage />} />
-                  <Route path="/profile" element={<h1>Profile</h1>} />
-                  <Route path="/cambiarcontra" element={<CambiarContraseña />} />
-                </Route>
-                <Route path="/canales-digitales" element={<CanalesDigitales />} />
-                <Route path="/transferencias" element={<Transferencias />} />
-                <Route path="/crearcuenta" element={<CrearCuenta />} />
-                <Route path="/saldo" element={<Saldos  />} />
-                <Route path="/Transacciones" element={<Transacciones  />} />
-                <Route path="/DatosPersonales" element={<DatosPersonales  />} />
-                
-              </Routes>
-            </main>
-          </BrowserRouter>
+            <BrowserRouter>
+              <main className="container content-container mx-auto px-10 md:px-0">
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route path="/verify-code" element={<VerifyCodePage />} />
+                  <Route path="/register-success" element={<RegisterSuccessPage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
+                  <Route path="/enviar-correo" element={<EnviarCorreo />} /> {/* Añade esta línea */}
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/tasks" element={<TasksPage />} />
+                    <Route path="/add-task" element={<TaskFormPage />} />
+                    <Route path="/tasks/:id" element={<TaskFormPage />} />
+                    <Route path="/profile" element={<h1>Profile</h1>} />
+                    <Route path="/cambiarcontra" element={<CambiarContraseña />} />
+                  </Route>
+                  <Route path="/canales-digitales" element={<CanalesDigitales />} />
+                  <Route path="/transferencias" element={<Transferencias />} />
+                  <Route path="/crearcuenta" element={<CrearCuenta />} />
+                  <Route path="/saldo" element={<Saldos  />} />
+                  <Route path="/Transacciones" element={<Transacciones  />} />
+                  <Route path="/DatosPersonales" element={<DatosPersonales  />} />
+                </Routes>
+              </main>
+            </BrowserRouter>
           </TransferProvider>
         </AccountProvider>
       </TaskProvider>

@@ -32,7 +32,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#1a202c', color: 'white', height: '100vh' }} className="flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-blue-500 mb-4">Recuperar contraseña</h2>
         {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -45,26 +45,10 @@ const ForgotPasswordPage = () => {
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
-              style={{
-                color: 'black',
-                padding: '0.5rem',
-                border: '1px solid #ccc',
-                borderRadius: '0.375rem',
-                width: '100%',
-                boxSizing: 'border-box',
-                marginBottom: '1rem'
-              }}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
-          <button type="submit" style={{
-            backgroundColor: '#3b82f6',
-            color: 'white',
-            padding: '0.5rem',
-            borderRadius: '0.375rem',
-            width: '100%',
-            border: 'none',
-            cursor: 'pointer'
-          }}>
+          <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition-colors">
             Enviar código de verificación
           </button>
         </form>
