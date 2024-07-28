@@ -230,4 +230,40 @@ recoveryApp.post('/send-support-email', async (req, res) => {
 });
 
 
+// Nueva ruta para enviar el código de verificación y realizar la transacción
+recoveryApp.post('/send-verificate-transaction-code', async (req, res) => {
+  const { email, code } = req.body;
+  const verificationData = verificationCodes[email];
+
+  if (!verificationData) {
+    const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiration = new Date(Date.now() + 3600000);
+
+    verificationCodes[email] = { code: newCode, expiration };
+
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.sender = { name: 'AndesInvest Support', email: 'noreply.andesinvest@gmail.com' };
+    sendSmtpEmail.to = [{ email: email }];
+    sendSmtpEmail.subject = 'Código de verificación para la transacción';
+    sendSmtpEmail.htmlContent = `<p>Tu código de verificación es: <b>${newCode}</b></p>`;
+
+    apiInstance.sendTransacEmail(sendSmtpEmail).then((data) => {
+      console.log('API called successfully. Returned data: ' + data);
+      res.send('Correo enviado');
+    }, (error) => {
+      console.error(error);
+      res.status(500).send('Error al enviar el correo');
+    });
+  } else {
+    if (verificationData.code !== code || verificationData.expiration < new Date()) {
+      return res.status(400).send('Código de verificación incorrecto o expirado');
+    }
+
+    res.send('Código verificado correctamente');
+    delete verificationCodes[email];
+  }
+});
+
+
+
 export default recoveryApp;

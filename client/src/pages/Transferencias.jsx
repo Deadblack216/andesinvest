@@ -8,6 +8,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Label, Input, Button } from "../components/ui";
+import axios from "axios";
 
 const Transferencias = () => {
   const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue, watch } = useForm();
@@ -19,7 +20,8 @@ const Transferencias = () => {
   const [isOwnAccount, setIsOwnAccount] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [accountHolderName, setAccountHolderName] = useState("");
-
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [timer, setTimer] = useState(60);
   const toAccountNumber = watch("toAccountNumber");
 
   useEffect(() => {
@@ -50,6 +52,29 @@ const Transferencias = () => {
 
     fetchAccountHolder();
   }, [toAccountNumber, getAccountHolder, setValue]);
+
+  useEffect(() => {
+    let interval;
+    if (isCodeSent && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setIsCodeSent(false);
+      setTimer(60);
+    }
+    return () => clearInterval(interval);
+  }, [isCodeSent, timer]);
+
+  const sendVerificationCode = async () => {
+    try {
+      await axios.post('http://localhost:4000/send-verificate-transaction-code', { email: user.email });
+      setIsCodeSent(true);
+      setTimer(60);
+    } catch (error) {
+      console.error('Error sending verification code:', error);
+    }
+  };
 
   const onSubmit = async (data) => {
     if (!selectedAccount) {
@@ -94,9 +119,21 @@ const Transferencias = () => {
     }
 
     try {
-      await createTransfer(transferData);
-      setShowSuccessModal(true);
+      const response = await axios.post('http://localhost:4000/send-verificate-transaction-code', { email: user.email, code: data.confirmationCode });
+      if (response.data === 'Código verificado correctamente') {
+        await createTransfer(transferData);
+        setShowSuccessModal(true);
+      } else {
+        setError("confirmationCode", {
+          type: "manual",
+          message: response.data,
+        });
+      }
     } catch (error) {
+      setError("confirmationCode", {
+        type: "manual",
+        message: "Código de verificación incorrecto o expirado.",
+      });
       console.error(error);
     }
   };
@@ -252,19 +289,21 @@ const Transferencias = () => {
                   className="flex-1 px-4 py-3 border border-black rounded-l-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-transparent text-black text-lg"
                   {...register("confirmationCode", { required: "Por favor, ingrese el código de confirmación." })}
                 />
-                <Button type="button" className="ml-2 px-4 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                  Enviar código
+                <Button
+                  type="button"
+                  className={`ml-2 px-4 py-3 ${isCodeSent ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600'} text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400`}
+                  onClick={sendVerificationCode}
+                  disabled={isCodeSent}
+                >
+                  {isCodeSent ? `Reenviar en ${timer}s` : 'Enviar código'}
                 </Button>
               </div>
               {errors.confirmationCode && (
                 <p className="text-red-500 text-xs italic col-span-2">{errors.confirmationCode.message}</p>
               )}
             </div>
-            <div className="form-actions flex justify-between mt-6">
-              <Button type="submit" className="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 transition-colors text-lg">
-                Continuar
-              </Button>
-              <Button type="button" className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-500 transition-colors text-lg">
+            <div className="form-actions flex justify-end mt-6">
+              <Button type="submit" className="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-500 transition-colors text-lg">
                 Confirmar
               </Button>
             </div>
@@ -295,10 +334,10 @@ const Transferencias = () => {
             outline: 0,
           }}
         >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={{ color: 'black' }}>
             Transferencia exitosa
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ color: 'black' }}>
             La transferencia se ha realizado con éxito.
           </Typography>
           <Button onClick={handleCloseModal} variant="contained" color="primary">
