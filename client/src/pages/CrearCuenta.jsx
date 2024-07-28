@@ -13,7 +13,7 @@ function CrearCuenta() {
 
   const onSubmit = async (data) => {
     try {
-      await createAccount(data, user.id); // Pasar el userId
+      await createAccount({ ...data, userId: user.id }); // Pasar el userId
       navigate("/saldo");
     } catch (error) {
       console.error(error);

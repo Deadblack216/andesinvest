@@ -86,7 +86,7 @@ export function Navbar() {
                   onMouseLeave={() => setIsServicesMenuOpen(false)}
                 >
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <Link to="/pago-servicios-basicos">Pago de servicios básicos</Link>
+                    <Link to="/service-bills">Pago de servicios básicos</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/recargas-moviles">Recargas móviles</Link>
@@ -131,7 +131,7 @@ export function Navbar() {
                   onMouseLeave={() => setIsHelpMenuOpen(false)}
                 >
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <Link to="/chat-en-vivo">Chat en Vivo</Link>
+                    <Link to="/Chat">Chat en Vivo</Link>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
                     <Link to="/enviar-correo">Envíanos un correo</Link>
