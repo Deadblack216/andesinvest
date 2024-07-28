@@ -1,117 +1,41 @@
+import React from 'react';
+
 const Chat = () => {
     return (
-        <div>   
-            <header className="page-header">
-                <h1>Redes Digitales</h1>
-            </header>
-            <main>
-                <section className="social-media-cards">
-                    <div className="card facebook-card">
-                        <div className="image-container">
-                            <img src="public/AndesinvestFacebook.webp" alt="Facebook" className="social-media-image" />
-                        </div>
-                        <h2>Facebook</h2>
-                        <p>Únete a nuestra comunidad en Facebook y mantente actualizado con las últimas noticias y promociones.</p>
-                        <a href="https://www.facebook.com/tu_pagina" className="social-media-link" target="_blank" rel="noopener noreferrer">Síguenos en Facebook</a>
+        <div className="flex flex-col items-center p-8 font-sans bg-gray-100 min-h-screen">
+            <h1 className="text-4xl font-bold text-gray-800 mb-8 animate-bounce">¡Contáctanos!</h1>
+            <div className="flex flex-col md:flex-row justify-around w-full max-w-6xl mt-8 space-y-8 md:space-y-0 md:space-x-8">
+                <div className="bg-white rounded-lg shadow-lg p-6 transform transition duration-500 hover:scale-105">
+                    <h2 className="text-2xl font-semibold text-gray-700">Chat en WhatsApp</h2>
+                    <p className="mt-2 text-gray-600">Puedes chatear con nosotros en WhatsApp usando el siguiente enlace:</p>
+                    <a href="https://wa.link/mwqp5y" target="_blank" rel="noopener noreferrer" className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">
+                        Ir al Chat de WhatsApp
+                    </a>
+                </div>
+                <div className="bg-white rounded-lg shadow-lg p-6 transform transition duration-500 hover:scale-105">
+                    <h2 className="text-2xl font-semibold text-gray-700">Chat en Vivo</h2>
+                    <p className="mt-2 text-gray-600">Escanea el código QR para iniciar un chat en vivo con nuestro equipo de soporte:</p>
+                    <img src="/QR.png" alt="Código QR para chat en vivo" className="mt-4 w-48 h-48 mx-auto" />
+                </div>
+            </div>
+            <div className="mt-16 text-center">
+                <h2 className="text-3xl font-semibold text-gray-800 mb-4">¿Por qué contactarnos?</h2>
+                <p className="text-gray-600 mb-8">Estamos aquí para ayudarte con cualquier consulta o problema que puedas tener. Nuestro equipo de soporte está disponible 24/7 para ofrecerte la mejor asistencia.</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="bg-white rounded-lg shadow-lg p-6 transform transition duration-500 hover:scale-105">
+                        <h3 className="text-xl font-semibold text-gray-700">Soporte Rápido</h3>
+                        <p className="mt-2 text-gray-600">Nuestro equipo de soporte responderá a tus consultas en el menor tiempo posible.</p>
                     </div>
-                    <div className="card instagram-card">
-                        <div className="image-container">
-                            <img src="public/AndesinvestInstagram.webp" alt="Instagram" className="social-media-image" />
-                        </div>
-                        <h2>Instagram</h2>
-                        <p>Sigue nuestro perfil de Instagram para ver fotos y videos exclusivos, y participa en nuestros concursos.</p>
-                        <a href="https://www.instagram.com/tu_pagina" className="social-media-link" target="_blank" rel="noopener noreferrer">Síguenos en Instagram</a>
+                    <div className="bg-white rounded-lg shadow-lg p-6 transform transition duration-500 hover:scale-105">
+                        <h3 className="text-xl font-semibold text-gray-700">Asistencia 24/7</h3>
+                        <p className="mt-2 text-gray-600">Estamos disponibles a cualquier hora del día para asistirte con tus necesidades.</p>
                     </div>
-                    <div className="card twitter-card">
-                        <div className="image-container">
-                            <img src="public/AndesinvestTwitter.webp" alt="Twitter" className="social-media-image" />
-                        </div>
-                        <h2>Twitter</h2>
-                        <p>Conéctate con nosotros en Twitter para recibir actualizaciones en tiempo real y unirte a la conversación.</p>
-                        <a href="https://www.twitter.com/tu_pagina" className="social-media-link" target="_blank" rel="noopener noreferrer">Síguenos en Twitter</a>
+                    <div className="bg-white rounded-lg shadow-lg p-6 transform transition duration-500 hover:scale-105">
+                        <h3 className="text-xl font-semibold text-gray-700">Soporte Personalizado</h3>
+                        <p className="mt-2 text-gray-600">Ofrecemos soluciones personalizadas para cada uno de nuestros clientes.</p>
                     </div>
-                </section>
-            </main>
-            <footer>
-                <p>&copy; 2024 AndesInvest</p>
-            </footer>
-
-            {/* Estilos en línea para propósitos demostrativos */}
-            <style jsx>{`
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #FFF; /* Fondo gris claro */
-                }
-                .page-header {
-                    text-align: center;
-                    margin: 20px 0;
-                }
-                .page-header h1 {
-                    font-size: 3em;
-                    color: #003366; /* Azul oscuro del logo EPN */
-                    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-                    border-bottom: 2px solid #d32f2f; /* Rojo del logo EPN */
-                    padding-bottom: 10px;
-                    display: inline-block;
-                }
-                .social-media-cards {
-                    display: flex;
-                    justify-content: space-around;
-                    margin: 20px 0;
-                }
-                .card {
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    overflow: hidden;
-                    text-align: center;
-                    width: 30%;
-                    padding: 20px;
-                    background-color: white;
-                    transition: transform 0.3s;
-                }
-                .card:hover {
-                    transform: scale(1.05);
-                }
-                .image-container {
-                    width: 100%;
-                    height: 200px;
-                    overflow: hidden;
-                    border-bottom: 1px solid #eee;
-                    margin-bottom: 15px;
-                }
-                .social-media-image {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-                .facebook-card {
-                    background-color: #3b5998; /* Azul de Facebook */
-                    color: white;
-                }
-                .instagram-card {
-                    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-                    color: white;
-                }
-                .twitter-card {
-                    background-color: #1da1f2; /* Azul de Twitter */
-                    color: white;
-                }
-                .social-media-link {
-                    display: inline-block;
-                    margin-top: 10px;
-                    padding: 10px 15px;
-                    border-radius: 5px;
-                    background-color: rgba(255, 255, 255, 0.2);
-                    color: white;
-                    text-decoration: none;
-                    transition: background-color 0.3s;
-                }
-                .social-media-link:hover {
-                    background-color: rgba(255, 255, 255, 0.4);
-                }
-                    
-
-            `}</style>
+                </div>
+            </div>
         </div>
     );
 };
