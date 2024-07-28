@@ -1,4 +1,3 @@
-// /src/routes/transfer.routes.js
 import express from 'express';
 import { transferFunds, getTransfers } from '../controllers/transfer.controller.js';
 import { auth } from '../middlewares/auth.middleware.js';
