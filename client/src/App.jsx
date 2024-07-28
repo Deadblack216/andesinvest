@@ -23,7 +23,7 @@ import Saldos from "./pages/Saldos";
 import Transacciones from "./pages/Transacciones";
 import DatosPersonales from "./pages/DatosPersonales";
 import EnviarCorreo from "./pages/EnviarCorreo"; // Importa el nuevo componente
-
+import Chat from "./pages/Chat";
 function App() {
   return (
     <AuthProvider>
@@ -50,6 +50,7 @@ function App() {
                     <Route path="/cambiarcontra" element={<CambiarContraseña />} />
                   </Route>
                   <Route path="/canales-digitales" element={<CanalesDigitales />} />
+                  <Route path="/Chat" element={<Chat />} />
                   <Route path="/transferencias" element={<Transferencias />} />
                   <Route path="/crearcuenta" element={<CrearCuenta />} />
                   <Route path="/saldo" element={<Saldos  />} />
