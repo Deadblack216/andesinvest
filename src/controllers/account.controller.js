@@ -1,8 +1,40 @@
 import Account from "../models/Account.js";
 import User from "../models/user.model.js";
+import ServiceBill from "../models/ServiceBill.js";
 
 const generateAccountNumber = () => {
   return Math.random().toString().slice(2, 22);
+};
+
+const generateRandomAmount = () => {
+  return (Math.random() * (100 - 20) + 20).toFixed(2); // Genera un valor aleatorio entre 20 y 100
+};
+
+const generateServiceBills = async (userId) => {
+  // Verificar si ya existen facturas de servicios básicos para el usuario
+  const existingBills = await ServiceBill.find({ userId });
+
+  if (existingBills.length > 0) {
+    // Si ya existen facturas, no creamos nuevas
+    console.log("Las facturas de servicios básicos ya existen para este usuario.");
+    return;
+  }
+
+  const services = ['electricidad', 'agua'];
+  const currentDate = new Date();
+  const issueDate = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+  const dueDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1));
+
+  for (const service of services) {
+    const newBill = new ServiceBill({
+      userId: userId,
+      serviceType: service,
+      amount: generateRandomAmount(),
+      issueDate: issueDate,
+      dueDate: dueDate,
+    });
+    await newBill.save();
+  }
 };
 
 export const createAccount = async (req, res) => {
@@ -18,6 +50,8 @@ export const createAccount = async (req, res) => {
     });
 
     const savedAccount = await newAccount.save();
+
+    await generateServiceBills(userId); // Generar facturas de servicios básicos
 
     res.status(201).json(savedAccount);
   } catch (error) {
