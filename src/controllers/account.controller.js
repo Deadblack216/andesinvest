@@ -1,6 +1,7 @@
 import Account from "../models/Account.js";
 import User from "../models/user.model.js";
 import ServiceBill from "../models/ServiceBill.js";
+import Transfer from "../models/transfer.model.js"; // Importar el modelo de Transferencias
 
 const generateAccountNumber = () => {
   return Math.random().toString().slice(2, 22);
@@ -45,11 +46,28 @@ export const createAccount = async (req, res) => {
     const newAccount = new Account({
       userId: userId,
       accountType: accountType,
-      balance: 0, // Saldo inicial de $100
+      balance: 0, // Saldo inicial de $0
       accountNumber: generateAccountNumber(),
     });
 
     const savedAccount = await newAccount.save();
+
+    // Simular un depósito de 100 dólares
+    savedAccount.balance += 100;
+    await savedAccount.save();
+
+    // Registrar esta transacción en el historial de transacciones
+    const depositTransaction = new Transfer({
+      fromAccount: savedAccount._id, // La cuenta origen y destino es la misma para el depósito inicial
+      toAccount: savedAccount._id,
+      amount: 100,
+      beneficiaryName: "Depósito Inicial",
+      description: "Depósito inicial para cumplir el saldo mínimo requerido",
+      notificationEmail: req.user.email,
+      date: new Date()
+    });
+
+    await depositTransaction.save();
 
     await generateServiceBills(userId); // Generar facturas de servicios básicos
 
