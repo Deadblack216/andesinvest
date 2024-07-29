@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useAccount } from '../context/accountContext';
-import { Button } from "../components/ui";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const Saldos = () => {
-  const { accounts, fetchAccounts, deleteAccount } = useAccount();
+  const { accounts, fetchAccounts } = useAccount();
 
   useEffect(() => {
     fetchAccounts();
@@ -14,15 +13,6 @@ const Saldos = () => {
   if (accounts.length === 0) {
     return <p>No accounts available.</p>;
   }
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteAccount(id);
-      fetchAccounts(); // Actualizar la lista de cuentas después de eliminar
-    } catch (error) {
-      console.error("Error deleting account:", error);
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-custom-darkgray p-6">
@@ -73,7 +63,6 @@ const Saldos = () => {
                 <p className="text-gray-900">{account.accountType === 'savings' ? 'Cuenta de Ahorros' : 'Cuenta Corriente'}</p>
               </div>
             </div>
-            <Button onClick={() => handleDelete(account._id)}>Eliminar Cuenta</Button>
           </div>
         ))}
       </Carousel>
