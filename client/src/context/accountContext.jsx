@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { createAccountRequest, fetchAccountsRequest, checkAccountExistsRequest } from "../api/accounts";
+import { createAccountRequest, getAccountsRequest, checkAccountExistsRequest } from "../api/accounts";
 
 const AccountContext = createContext();
 
@@ -9,8 +9,17 @@ export const useAccount = () => {
   return context;
 };
 
-export function AccountProvider({ children }) {
+export const AccountProvider = ({ children }) => {
   const [accounts, setAccounts] = useState([]);
+
+  const fetchAccounts = async () => {
+    try {
+      const res = await getAccountsRequest();
+      setAccounts(res.data);
+    } catch (error) {
+      console.error("Error fetching accounts:", error);
+    }
+  };
 
   const createAccount = async (accountData) => {
     try {
@@ -18,16 +27,7 @@ export function AccountProvider({ children }) {
       setAccounts([...accounts, res.data]);
       console.log(res.data);
     } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchAccounts = async () => {
-    try {
-      const res = await fetchAccountsRequest();
-      setAccounts(res.data);
-    } catch (error) {
-      console.error(error);
+      console.error("Error creating account:", error);
     }
   };
 
@@ -41,9 +41,23 @@ export function AccountProvider({ children }) {
     }
   };
 
+  const getAccountHolder = async (accountNumber) => {
+    try {
+      const res = await checkAccountExistsRequest(accountNumber);
+      if (res.data.exists) {
+        return { accountHolder: res.data.account.userId, error: null };
+      } else {
+        return { accountHolder: null, error: res.data.message };
+      }
+    } catch (error) {
+      console.error(error);
+      return { accountHolder: null, error: "Error al verificar la cuenta" };
+    }
+  };
+
   return (
-    <AccountContext.Provider value={{ accounts, createAccount, fetchAccounts, checkAccountExists }}>
+    <AccountContext.Provider value={{ accounts, createAccount, fetchAccounts, checkAccountExists, getAccountHolder }}>
       {children}
     </AccountContext.Provider>
   );
-}
+};

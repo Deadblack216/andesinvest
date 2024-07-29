@@ -47,13 +47,8 @@ recoveryApp.post('/forgot-password', async (req, res) => {
       sendSmtpEmail.subject = 'Código de verificación';
       sendSmtpEmail.htmlContent = `<p>Tu código de verificación es: <b>${code}</b></p>`;
 
-      apiInstance.sendTransacEmail(sendSmtpEmail).then((data) => {
-        console.log('API called successfully. Returned data: ' + data);
-        res.send('Correo enviado');
-      }, (error) => {
-        console.error(error);
-        res.status(500).send('Error al enviar el correo');
-      });
+      await apiInstance.sendTransacEmail(sendSmtpEmail);
+      res.send('Correo enviado');
     } else {
       res.status(404).send('Correo no encontrado');
     }
@@ -80,7 +75,6 @@ recoveryApp.post('/verify-code', async (req, res) => {
     const collection = database.collection('users');
 
     if (userData) {
-      // Registro de usuario
       // Registro de usuario
       const hashedPassword = await bcrypt.hash(userData.password, 10);
       const hashedConfirmPassword = await bcrypt.hash(userData.confirmPassword, 10);
@@ -154,13 +148,8 @@ recoveryApp.post('/send-verification-code', async (req, res) => {
       sendSmtpEmail.subject = 'Código de verificación';
       sendSmtpEmail.htmlContent = `<p>Tu código de verificación es: <b>${code}</b></p>`;
 
-      apiInstance.sendTransacEmail(sendSmtpEmail).then((data) => {
-        console.log('API called successfully. Returned data: ' + data);
-        res.send('Correo enviado');
-      }, (error) => {
-        console.error(error);
-        res.status(500).send('Error al enviar el correo');
-      });
+      await apiInstance.sendTransacEmail(sendSmtpEmail);
+      res.send('Correo enviado');
     } else {
       res.status(400).send('Usuario ya registrado');
     }
@@ -171,6 +160,7 @@ recoveryApp.post('/send-verification-code', async (req, res) => {
     await mongoClient.close();
   }
 });
+
 // Nueva ruta para enviar el correo de asistencia técnica
 recoveryApp.post('/send-support-email', async (req, res) => {
   const { email, subject, message } = req.body;
@@ -229,41 +219,44 @@ recoveryApp.post('/send-support-email', async (req, res) => {
   }
 });
 
-
 // Nueva ruta para enviar el código de verificación y realizar la transacción
 recoveryApp.post('/send-verificate-transaction-code', async (req, res) => {
   const { email, code } = req.body;
-  const verificationData = verificationCodes[email];
-
-  if (!verificationData) {
-    const newCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiration = new Date(Date.now() + 3600000);
-
-    verificationCodes[email] = { code: newCode, expiration };
-
-    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-    sendSmtpEmail.sender = { name: 'AndesInvest Support', email: 'noreply.andesinvest@gmail.com' };
-    sendSmtpEmail.to = [{ email: email }];
-    sendSmtpEmail.subject = 'Código de verificación para la transacción';
-    sendSmtpEmail.htmlContent = `<p>Tu código de verificación es: <b>${newCode}</b></p>`;
-
-    apiInstance.sendTransacEmail(sendSmtpEmail).then((data) => {
-      console.log('API called successfully. Returned data: ' + data);
-      res.send('Correo enviado');
-    }, (error) => {
-      console.error(error);
-      res.status(500).send('Error al enviar el correo');
-    });
-  } else {
-    if (verificationData.code !== code || verificationData.expiration < new Date()) {
+  
+  // Verifica si ya existe un código para este email
+  if (verificationCodes[email]) {
+    const verificationData = verificationCodes[email];
+    
+    // Verifica si el código es correcto y no ha expirado
+    if (code && (verificationData.code !== code || verificationData.expiration < new Date())) {
       return res.status(400).send('Código de verificación incorrecto o expirado');
     }
+    
+    if (code) {
+      delete verificationCodes[email];
+      return res.send('Código verificado correctamente');
+    }
+  }
+  
+  // Genera un nuevo código y lo envía por correo
+  const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiration = new Date(Date.now() + 3600000);
 
-    res.send('Código verificado correctamente');
-    delete verificationCodes[email];
+  verificationCodes[email] = { code: newCode, expiration };
+
+  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+  sendSmtpEmail.sender = { name: 'AndesInvest Support', email: 'noreply.andesinvest@gmail.com' };
+  sendSmtpEmail.to = [{ email: email }];
+  sendSmtpEmail.subject = 'Código de verificación para la transacción';
+  sendSmtpEmail.htmlContent = `<p>Tu código de verificación es: <b>${newCode}</b></p>`;
+
+  try {
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    res.send('Correo enviado');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error al enviar el correo');
   }
 });
-
-
 
 export default recoveryApp;
