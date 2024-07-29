@@ -45,7 +45,7 @@ export const createAccount = async (req, res) => {
     const newAccount = new Account({
       userId: userId,
       accountType: accountType,
-      balance: 100, // Saldo inicial de $100
+      balance: 0, // Saldo inicial de $100
       accountNumber: generateAccountNumber(),
     });
 
@@ -88,8 +88,8 @@ export const deleteAccount = async (req, res) => {
 };
 
 export const checkAccountExists = async (req, res) => {
-  const { accountNumber } = req.params;
   try {
+    const { accountNumber } = req.params;
     const account = await Account.findOne({ accountNumber }).populate('userId', 'fullName');
     if (account) {
       return res.status(200).json({

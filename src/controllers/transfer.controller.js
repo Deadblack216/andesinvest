@@ -105,3 +105,25 @@ export const getTransfers = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getTransactions = async (req, res) => {
+  const { accountId } = req.query;
+
+  try {
+    const transactions = await Transfer.find({
+      $or: [{ fromAccount: accountId }, { toAccount: accountId }]
+    })
+    .populate({
+      path: 'fromAccount toAccount',
+      populate: {
+        path: 'userId',
+        select: 'fullName'
+      }
+    })
+    .sort({ date: -1 });
+
+    res.status(200).json(transactions);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

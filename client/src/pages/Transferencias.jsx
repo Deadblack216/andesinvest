@@ -1,3 +1,4 @@
+// Transferencias.jsx
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -39,19 +40,23 @@ const Transferencias = () => {
   useEffect(() => {
     const fetchAccountHolder = async () => {
       if (toAccountNumber) {
-        const accountHolder = await getAccountHolder(toAccountNumber);
+        const { accountHolder, error } = await getAccountHolder(toAccountNumber);
         if (accountHolder) {
           setAccountHolderName(accountHolder);
           setValue("beneficiaryName", accountHolder);
+          clearErrors("toAccountNumber");
         } else {
           setAccountHolderName("");
           setValue("beneficiaryName", "");
+          if (error) {
+            setError("toAccountNumber", { type: "manual", message: error });
+          }
         }
       }
     };
 
     fetchAccountHolder();
-  }, [toAccountNumber, getAccountHolder, setValue]);
+  }, [toAccountNumber, getAccountHolder, setValue, setError, clearErrors]);
 
   useEffect(() => {
     let interval;
@@ -192,6 +197,9 @@ const Transferencias = () => {
                 />
                 {errors.toAccountNumber && (
                   <p className="text-red-500 text-xs italic col-span-3">{errors.toAccountNumber.message}</p>
+                )}
+                {accountHolderName && (
+                  <p className="text-green-500 text-xs italic col-span-3">Titular de la cuenta: {accountHolderName}</p>
                 )}
               </div>
             )}
